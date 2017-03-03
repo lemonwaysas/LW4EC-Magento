@@ -56,7 +56,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="sirateck_lemonway4ec/adminhtml_moneyout" name="moneyout" template="lemonway/moneyout.phtml" />
+            <block type="sirateck_lemonway4ec/adminhtml_moneyout" name="moneyout" template="lemonway4ec/moneyout.phtml" />
 
         </reference>
     </adminhtml_lemonway_moneyout_pay>

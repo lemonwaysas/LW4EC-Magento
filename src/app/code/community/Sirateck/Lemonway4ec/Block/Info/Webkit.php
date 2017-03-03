@@ -27,7 +27,7 @@ class Sirateck_Lemonway4ec_Block_Info_Webkit extends Mage_Payment_Block_Info
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('lemonway/info/webkit.phtml');
+        $this->setTemplate('lemonway4ec/info/webkit.phtml');
     }
     
     
