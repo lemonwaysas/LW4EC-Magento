@@ -9,7 +9,7 @@ class Sirateck_Lemonway4ec_Model_Observer {
 	public function cancelOrdersInPending()
 	{
 	
-		if(!Mage::getStoreConfigFlag('payment/lemonway_webkit/cancel_pending_order'))
+		if(!Mage::getStoreConfigFlag('payment/lemonway4ec_webkit/cancel_pending_order'))
 			return $this;
 				
 			//Limited time in minutes
@@ -21,7 +21,7 @@ class Sirateck_Lemonway4ec_Model_Observer {
 			$collection = Mage::getResourceModel('sales/order_collection');
 			$collection->addFieldToSelect(array('entity_id','increment_id','store_id','state'))
 			->addFieldToFilter('main_table.state',Mage_Sales_Model_Order::STATE_NEW)
-			->addFieldToFilter('op.method',array('eq'=>'lemonway_webkit'))
+			->addFieldToFilter('op.method',array('eq'=>'lemonway4ec_webkit'))
 			->addAttributeToFilter('created_at', array('to' => ($date->subMinute($limitedTime)->toString('Y-MM-dd HH:mm:ss'))))
 			->join(array('op' => 'sales/order_payment'), 'main_table.entity_id=op.parent_id', array('method'));
 	

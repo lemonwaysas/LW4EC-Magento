@@ -24,7 +24,7 @@
  class Sirateck_Lemonway4ec_Model_Method_Webkit extends Mage_Payment_Model_Method_Abstract{
 
 
- 	protected $_code  = 'lemonway_webkit';
+ 	protected $_code  = 'lemonway4ec_webkit';
  	protected $_formBlockType = 'sirateck_lemonway4ec/form_webkit';
  	protected $_infoBlockType = 'sirateck_lemonway4ec/info_webkit';
 

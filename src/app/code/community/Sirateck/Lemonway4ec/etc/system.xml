@@ -70,7 +70,7 @@
 		</sirateck_lemonway4ec>
 		<payment>
             <groups>
-            	<lemonway_webkit translate="label" module="sirateck_lemonway4ec">
+            	<lemonway4ec_webkit translate="label" module="sirateck_lemonway4ec">
             		<label>Lemonway payment method (webkit)</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>200</sort_order>
@@ -194,7 +194,7 @@
                             <show_in_store>1</show_in_store>
                         </debug>
                       </fields> 
-             	</lemonway_webkit>
+             	</lemonway4ec_webkit>
              </groups>
 		</payment>
 	</sections>

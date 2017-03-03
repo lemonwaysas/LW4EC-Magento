@@ -136,7 +136,7 @@
 			</lemonway_api>
 		</sirateck_lemonway4ec>
 		<payment>
-			<lemonway_webkit>
+			<lemonway4ec_webkit>
 				<active>0</active>
 				<title>Lemonway payment</title>
 				<order_status>pending</order_status>
@@ -151,7 +151,7 @@
 				<return_url>lemonway/payment/return</return_url>
 				<cancel_url>lemonway/payment/cancel</cancel_url>
 				<error_url>lemonway/payment/error</error_url>	
-			</lemonway_webkit>
+			</lemonway4ec_webkit>
 		</payment>
 	</default>
 </config>
