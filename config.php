@@ -2,7 +2,7 @@
 
 return array(
   'extension_name'         => 'Sirateck_Lemonway4ec',
-  'summary'                => 'INTEGRATE YOUR TECHNOLOGY, MAKE THE MOST OF OUR SERVICES!',
+  'summary'                => 'A 1 minute integration for the cheapest payment solution in Europe.Accept payment by credit cards from all around the world.',
   'description'            => 'Through its API, Lemon Way offers you state-of-the-art payment technology. Beyond their technological expertise, Lemon Way also offers a multitude of complementary regulation and management services.',
   'notes'                  => '',
   'extension_version'      => '0.1.0',
