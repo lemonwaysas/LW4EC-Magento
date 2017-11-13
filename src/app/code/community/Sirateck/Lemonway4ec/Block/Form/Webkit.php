@@ -22,7 +22,7 @@
  */
 class Sirateck_Lemonway4ec_Block_Form_Webkit extends Mage_Payment_Block_Form
 {
-	
+    
     protected function _construct()
     {
         parent::_construct();
@@ -35,7 +35,7 @@ class Sirateck_Lemonway4ec_Block_Form_Webkit extends Mage_Payment_Block_Form
      */
     public function getCheckout()
     {
-    	return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('checkout/session');
     }
     
     /**
@@ -44,52 +44,56 @@ class Sirateck_Lemonway4ec_Block_Form_Webkit extends Mage_Payment_Block_Form
      */
     public function getQuote()
     {
-    	return $this->getCheckout()->getQuote();
+        return $this->getCheckout()->getQuote();
     }
     
     /**
      * @return Mage_Customer_Model_Customer
      */
-    public function getCustomer(){
-    	return Mage::getSingleton('customer/session')->getCustomer();
+    public function getCustomer()
+    {
+        return Mage::getSingleton('customer/session')->getCustomer();
     }
     
     public function oneClicAllowed()
     {
-    	$checkoutMethod = Mage::getSingleton('checkout/session')->getQuote()->getCheckoutMethod();
-    	
-    	if($checkoutMethod == Mage_Checkout_Model_Type_Onepage::METHOD_GUEST || !$this->getMethod()->getConfigData('allow_oneclic'))
-    		return false;
-    	
-    	return true;
+        $checkoutMethod = Mage::getSingleton('checkout/session')->getQuote()->getCheckoutMethod();
+        
+        if($checkoutMethod == Mage_Checkout_Model_Type_Onepage::METHOD_GUEST || !$this->getMethod()->getConfigData('allow_oneclic'))
+            return false;
+        
+        return true;
 
     }
     
     public function customerHasCardId()
     {
-    	return $this->getCardId() != "";
+        return $this->getCardId() != "";
     }
     
     public function getCardId()
     {
-    	return $this->getCustomer()->getLwCardId();
+        return $this->getCustomer()->getLwCardId();
     }
     
-    public function getCardNum(){
-    	return $this->getCustomer()->getLwCardNum();
+    public function getCardNum()
+    {
+        return $this->getCustomer()->getLwCardNum();
     }
     
     public function customerHasCardNum()
     {
-    	return $this->getCardNum() != "";
+        return $this->getCardNum() != "";
     }
     
-    public function getCardType(){
-    	return $this->getCustomer()->getLwCardType();
+    public function getCardType()
+    {
+        return $this->getCustomer()->getLwCardType();
     }
     
-    public function getCardExp(){
-    	return $this->getCustomer()->getLwCardExp();
+    public function getCardExp()
+    {
+        return $this->getCustomer()->getLwCardExp();
     }
     
     

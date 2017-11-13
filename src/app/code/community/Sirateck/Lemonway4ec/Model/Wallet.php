@@ -51,20 +51,20 @@ class Sirateck_Lemonway4ec_Model_Wallet extends Mage_Core_Model_Abstract
      5  => "Validité du document expiré"); */
     
     public static $statuesLabel = array(1 => "Document only received",
-    		2  => "Document checked and accepted",
-    		3  => "Document checked but not accepted",
-    		4  => "Document replaced by another document",
-    		5  => "Document validity expired");
+            2  => "Document checked and accepted",
+            3  => "Document checked but not accepted",
+            4  => "Document replaced by another document",
+            5  => "Document validity expired");
     
     public static $docsType = array(
-    		0=>"ID card (UE)",
-    		1=>"Proof of address",
-    		2=>"RIB",
-    		3=>"Passport (UE)",
-    		4=>"Passport (Not UE)",
-    		5=>"Residence permit",
-    		7=>"Kbis",
-    		11=>"Miscellaneous",
+            0=>"ID card (UE)",
+            1=>"Proof of address",
+            2=>"RIB",
+            3=>"Passport (UE)",
+            4=>"Passport (Not UE)",
+            5=>"Residence permit",
+            7=>"Kbis",
+            11=>"Miscellaneous",
     );
 
     /**
@@ -94,6 +94,7 @@ class Sirateck_Lemonway4ec_Model_Wallet extends Mage_Core_Model_Abstract
         if ($this->isObjectNew()) {
             $this->setCreatedAt($now);
         }
+
         $this->setUpdatedAt($now);
         return $this;
     }

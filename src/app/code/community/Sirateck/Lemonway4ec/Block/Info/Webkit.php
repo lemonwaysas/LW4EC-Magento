@@ -37,7 +37,7 @@ class Sirateck_Lemonway4ec_Block_Info_Webkit extends Mage_Payment_Block_Info
      */
     public function getCheckout()
     {
-    	return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('checkout/session');
     }
     
     /**
@@ -46,7 +46,7 @@ class Sirateck_Lemonway4ec_Block_Info_Webkit extends Mage_Payment_Block_Info
      */
     public function getQuote()
     {
-    	return $this->getCheckout()->getQuote();
+        return $this->getCheckout()->getQuote();
     }
 
 }

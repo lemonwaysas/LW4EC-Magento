@@ -1,156 +1,200 @@
 <?php
 
-class Sirateck_Lemonway4ec_Model_Apikit_Kit{
+class Sirateck_Lemonway4ec_Model_Apikit_Kit
+{
     
-    public function RegisterWallet($params) {
+    public function RegisterWallet($params) 
+    {
         $res = $this->sendRequest('RegisterWallet', $params, '1.1');
         if (!isset($res->lwError)){
-            $res->wallet =  Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_wallet',array($res->lwXml->WALLET));//new Wallet($res->lwXml->WALLET);
+            $res->wallet =  Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_wallet', array($res->lwXml->WALLET));//new Wallet($res->lwXml->WALLET);
         }
+
         return $res;
     }
-    public function MoneyIn($params) {
+    public function MoneyIn($params) 
+    {
         $res = $this->sendRequest('MoneyIn', $params, '1.1');
         if (!isset($res->lwError)){
-            $res->operations = array(Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_operation',array($res->lwXml->TRANS->HPAY)));// array(new Operation($res->lwXml->TRANS->HPAY));
+            $res->operations = array(Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_operation', array($res->lwXml->TRANS->HPAY)));// array(new Operation($res->lwXml->TRANS->HPAY));
         }
+
         return $res;
     }
-    public function UpdateWalletDetails($params) {
+    public function UpdateWalletDetails($params) 
+    {
         $res = $this->sendRequest('UpdateWalletDetails', $params, '1.0');
         if (!isset($res->lwError)){
-            $res->wallet = Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_wallet',array($res->lwXml->WALLET));
+            $res->wallet = Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_wallet', array($res->lwXml->WALLET));
         }
+
         return $res;
     }
-    public function GetWalletDetails($params) {
+    public function GetWalletDetails($params) 
+    {
         $res = $this->sendRequest('GetWalletDetails', $params, '1.5');
         if (!isset($res->lwError)){
-            $res->wallet = Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_wallet',array($res->lwXml->WALLET));
+            $res->wallet = Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_wallet', array($res->lwXml->WALLET));
         }
+
         return $res;
     }
-    public function MoneyIn3DInit($params) {
+    public function MoneyIn3DInit($params) 
+    {
         return $this->sendRequest('MoneyIn3DInit', $params, '1.1');
     }
-    public function MoneyIn3DConfirm($params) {
+    public function MoneyIn3DConfirm($params) 
+    {
         return $this->sendRequest('MoneyIn3DConfirm', $params, '1.1');
     }
-    public function MoneyInWebInit($params) {
+    public function MoneyInWebInit($params) 
+    {
         return $this->sendRequest('MoneyInWebInit', $params, '1.3');
     }
-    public function RegisterCard($params) {
+    public function RegisterCard($params) 
+    {
         return $this->sendRequest('RegisterCard', $params, '1.1');
     }
-    public function UnregisterCard($params) {
+    public function UnregisterCard($params) 
+    {
         return $this->sendRequest('UnregisterCard', $params, '1.0');
     }
-    public function MoneyInWithCardId($params) {
+    public function MoneyInWithCardId($params) 
+    {
         $res = $this->sendRequest('MoneyInWithCardId', $params, '1.1');
         if (!isset($res->lwError)){
-            $res->operations = array(Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_operation',array($res->lwXml->TRANS->HPAY)));
+            $res->operations = array(Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_operation', array($res->lwXml->TRANS->HPAY)));
         }
+
         return $res;
     }
-    public function MoneyInValidate($params) {
+    public function MoneyInValidate($params) 
+    {
         return $this->sendRequest('MoneyInValidate', $params, '1.0');
     }
-    public function SendPayment($params) {
+    public function SendPayment($params) 
+    {
         $res = $this->sendRequest('SendPayment', $params, '1.0');
         if (!isset($res->lwError)){
-            $res->operations = array(Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_operation',array($res->lwXml->TRANS->HPAY)));
+            $res->operations = array(Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_operation', array($res->lwXml->TRANS->HPAY)));
         }
+
         return $res;
     }
-    public function RegisterIBAN($params) {
+    public function RegisterIBAN($params) 
+    {
         $res = $this->sendRequest('RegisterIBAN', $params, '1.1');
         if (!isset($res->lwError)){
-            $res->iban = Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_iban',array($res->lwXml->IBAN));;//new Iban($res->lwXml->IBAN);
+            $res->iban = Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_iban', array($res->lwXml->IBAN));;//new Iban($res->lwXml->IBAN);
         }
+
         return $res;
     }
-    public function MoneyOut($params) {
+    public function MoneyOut($params) 
+    {
         $res = $this->sendRequest('MoneyOut', $params, '1.3');
         if (!isset($res->lwError)){
-            $res->operations = array(Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_operation',array($res->lwXml->TRANS->HPAY)));
+            $res->operations = array(Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_operation', array($res->lwXml->TRANS->HPAY)));
         }
+
         return $res;
     }
-    public function GetPaymentDetails($params) {
+    public function GetPaymentDetails($params) 
+    {
         $res = $this->sendRequest('GetPaymentDetails', $params, '1.0');
         if (!isset($res->lwError)){
             $res->operations = array();
             foreach ($res->lwXml->TRANS->HPAY as $HPAY){
-                $res->operations[] = Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_operation',array($HPAY));
+                $res->operations[] = Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_operation', array($HPAY));
             }
         }
+
         return $res;
     }
-    public function GetMoneyInTransDetails($params) {
+    public function GetMoneyInTransDetails($params) 
+    {
         $res = $this->sendRequest('GetMoneyInTransDetails', $params, '1.8');
         if (!isset($res->lwError)){
             $res->operations = array();
             foreach ($res->lwXml->TRANS->HPAY as $HPAY){
-                $res->operations[] = Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_operation',array($HPAY));
+                $res->operations[] = Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_operation', array($HPAY));
             }
         }
+
         return $res;
     }
-    public function GetMoneyOutTransDetails($params) {
+    public function GetMoneyOutTransDetails($params) 
+    {
         $res = $this->sendRequest('GetMoneyOutTransDetails', $params, '1.4');
         if (!isset($res->lwError)){
             $res->operations = array();
             foreach ($res->lwXml->TRANS->HPAY as $HPAY){
-                $res->operations[] = Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_operation',array($HPAY));
+                $res->operations[] = Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_operation', array($HPAY));
             }
         }
+
         return $res;
     }
-    public function UploadFile($params) {
+    public function UploadFile($params) 
+    {
         $res = $this->sendRequest('UploadFile', $params, '1.1');
         if (!isset($res->lwError)){
-            $res->kycDoc = Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_kycDoc',array($res->lwXml->UPLOAD));;//new KycDoc($res->lwXml->UPLOAD);
+            $res->kycDoc = Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_kycDoc', array($res->lwXml->UPLOAD));;//new KycDoc($res->lwXml->UPLOAD);
         }
+
         return $res;
     }
-    public function GetKycStatus($params) {
+    public function GetKycStatus($params) 
+    {
         return $this->sendRequest('GetKycStatus', $params, '1.5');
     }
-    public function GetMoneyInIBANDetails($params) {
+    public function GetMoneyInIBANDetails($params) 
+    {
         return $this->sendRequest('GetMoneyInIBANDetails', $params, '1.4');
     }
-    public function RefundMoneyIn($params) {
+    public function RefundMoneyIn($params) 
+    {
         return $this->sendRequest('RefundMoneyIn', $params, '1.2');
     }
-    public function GetBalances($params) {
+    public function GetBalances($params) 
+    {
         return $this->sendRequest('GetBalances', $params, '1.0');
     }
-    public function MoneyIn3DAuthenticate($params) {
+    public function MoneyIn3DAuthenticate($params) 
+    {
         return $this->sendRequest('MoneyIn3DAuthenticate', $params, '1.0');
     }
-    public function MoneyInIDealInit($params) {
+    public function MoneyInIDealInit($params) 
+    {
         return $this->sendRequest('MoneyInIDealInit', $params, '1.0');
     }
-    public function MoneyInIDealConfirm($params) {
+    public function MoneyInIDealConfirm($params) 
+    {
         return $this->sendRequest('MoneyInIDealConfirm', $params, '1.0');
     }
-    public function RegisterSddMandate($params) {
+    public function RegisterSddMandate($params) 
+    {
         $res = $this->sendRequest('RegisterSddMandate', $params, '1.0');
         if (!isset($res->lwError)){
-            $res->sddMandate = Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_sddMandate',array($res->lwXml->SDDMANDATE));;//new SddMandate($res->lwXml->SDDMANDATE);
+            $res->sddMandate = Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_sddMandate', array($res->lwXml->SDDMANDATE));;//new SddMandate($res->lwXml->SDDMANDATE);
         }
+
         return $res;
     }
-    public function UnregisterSddMandate($params) {
+    public function UnregisterSddMandate($params) 
+    {
         return $this->sendRequest('UnregisterSddMandate', $params, '1.0');
     }
-    public function MoneyInSddInit($params) {
+    public function MoneyInSddInit($params) 
+    {
         return $this->sendRequest('MoneyInSddInit', $params, '1.0');
     }
-    public function GetMoneyInSdd($params) {
+    public function GetMoneyInSdd($params) 
+    {
         return $this->sendRequest('GetMoneyInSdd', $params, '1.0');
     }
-    public function GetMoneyInChequeDetails($params) {
+    public function GetMoneyInChequeDetails($params) 
+    {
         return $this->sendRequest('GetMoneyInChequeDetails', $params, '1.4');
     }
     
@@ -161,7 +205,8 @@ class Sirateck_Lemonway4ec_Model_Apikit_Kit{
      * @param float $version
      * @return Sirateck_Lemonway4ec_Model_Apikit_Apiresponse $apiResponse 
      */
-    private function sendRequest($methodName, $params, $version){
+    private function sendRequest($methodName, $params, $version)
+    {
         $ua = '';
         if (isset($_SERVER['HTTP_USER_AGENT']))
             $ua = $_SERVER['HTTP_USER_AGENT'];
@@ -174,6 +219,7 @@ class Sirateck_Lemonway4ec_Model_Apikit_Kit{
         foreach ($params as $key => $value) {
             $xml_soap .= '<'.$key.'>'.$value.'</'.$key.'>';
         }
+
         $xml_soap .= '<version>'.$version.'</version>';
         $xml_soap .= '<wlPass>'.$this->getConfig()->getApiPass().'</wlPass>';
         $xml_soap .= '<wlLogin>'.$this->getConfig()->getApiLogin().'</wlLogin>';
@@ -237,7 +283,7 @@ class Sirateck_Lemonway4ec_Model_Apikit_Kit{
                 }
                 
                 curl_close($ch);
-                $apiResponse = Mage::getModel('sirateck_lemonway4ec/apikit_apiresponse',array($content)); 
+                $apiResponse = Mage::getModel('sirateck_lemonway4ec/apikit_apiresponse', array($content)); 
                 return $apiResponse;
                 
             case 400:
@@ -265,14 +311,15 @@ class Sirateck_Lemonway4ec_Model_Apikit_Kit{
         curl_close($ch);
     }
     
-    public function printCardForm($moneyInToken, $cssUrl = '', $language = 'fr'){
+    public function printCardForm($moneyInToken, $cssUrl = '', $language = 'fr')
+    {
         
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $this->getConfig()->getWebkitUrl()."?moneyintoken=".$moneyInToken.'&p='.urlencode($cssUrl).'&lang='.$language);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, !$this->getConfig()->isTestMode());
 
-        $server_output = curl_exec ($ch);
+        $server_output = curl_exec($ch);
         if(curl_errno($ch))
         {
             print(curl_error($ch));//TODO : handle error
@@ -280,7 +327,7 @@ class Sirateck_Lemonway4ec_Model_Apikit_Kit{
             $returnCode = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
             switch($returnCode){
                 case 200:
-                    curl_close ($ch);
+                    curl_close($ch);
                     print($server_output);
                     break;
                 default:
@@ -293,8 +340,8 @@ class Sirateck_Lemonway4ec_Model_Apikit_Kit{
     /**
      * @return Sirateck_Lemonway4ec_Model_Config
      */
-    protected function getConfig(){
+    protected function getConfig()
+    {
         return Mage::getSingleton('sirateck_lemonway4ec/config');
     }
 }
-?>

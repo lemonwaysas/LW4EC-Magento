@@ -56,7 +56,7 @@ $sql[] = "CREATE TABLE IF NOT EXISTS {$this->getTable('sirateck_lemonway4ec_iban
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
 foreach ($sql as $q){
-	$this->run($q);
+    $this->run($q);
 }
 
 

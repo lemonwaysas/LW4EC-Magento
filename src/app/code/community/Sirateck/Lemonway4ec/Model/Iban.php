@@ -71,6 +71,7 @@ class Sirateck_Lemonway4ec_Model_Iban extends Mage_Core_Model_Abstract
         if ($this->isObjectNew()) {
             $this->setCreatedAt($now);
         }
+
         $this->setUpdatedAt($now);
         return $this;
     }

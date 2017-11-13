@@ -50,7 +50,7 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
             'required'  => true,
             'class' => 'required-entry',
 
-           )
+            )
         );
 
         $fieldset->addField(
@@ -62,7 +62,7 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
             'required'  => true,
             'class' => 'required-entry',
 
-           )
+            )
         );
 
         $fieldset->addField(
@@ -74,7 +74,7 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
             'required'  => true,
             'class' => 'required-entry',
 
-           )
+            )
         );
 
         $fieldset->addField(
@@ -96,7 +96,7 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
                     'label' => Mage::helper('sirateck_lemonway4ec')->__('No'),
                 ),
             ),
-           )
+            )
         );
 
         $fieldset->addField(
@@ -108,7 +108,7 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
             'required'  => true,
             'class' => 'required-entry',
 
-           )
+            )
         );
 
         $fieldset->addField(
@@ -120,7 +120,7 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
             'required'  => true,
             'class' => 'required-entry',
 
-           )
+            )
         );
 
         $fieldset->addField(
@@ -132,7 +132,7 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
             'required'  => true,
             'class' => 'required-entry',
 
-           )
+            )
         );
 
         $fieldset->addField(
@@ -144,7 +144,7 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
             'required'  => true,
             'class' => 'required-entry',
 
-           )
+            )
         );
 
         $fieldset->addField(
@@ -154,7 +154,7 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
                 'label' => Mage::helper('sirateck_lemonway4ec')->__('Street'),
                 'name'  => 'billing_address_street',
 
-           )
+            )
         );
 
         $fieldset->addField(
@@ -164,7 +164,7 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
                 'label' => Mage::helper('sirateck_lemonway4ec')->__('Postcode'),
                 'name'  => 'billing_address_postcode',
 
-           )
+            )
         );
 
         $fieldset->addField(
@@ -174,7 +174,7 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
                 'label' => Mage::helper('sirateck_lemonway4ec')->__('City'),
                 'name'  => 'billing_address_city',
 
-           )
+            )
         );
 
         $fieldset->addField(
@@ -185,7 +185,7 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
                 'name'  => 'billing_address_country',
 
             'values'=> Mage::getResourceModel('directory/country_collection')->toOptionArray(),
-           )
+            )
         );
 
         $fieldset->addField(
@@ -195,7 +195,7 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
                 'label' => Mage::helper('sirateck_lemonway4ec')->__('Phone Number'),
                 'name'  => 'billing_address_phone',
 
-           )
+            )
         );
 
         $fieldset->addField(
@@ -205,7 +205,7 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
                 'label' => Mage::helper('sirateck_lemonway4ec')->__('Mobile Number'),
                 'name'  => 'billing_address_mobile',
 
-           )
+            )
         );
 
         $fieldset->addField(
@@ -217,7 +217,7 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
 
             'image' => $this->getSkinUrl('images/grid-cal.gif'),
             'format'  => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT),
-           )
+            )
         );
 
         $fieldset->addField(
@@ -237,7 +237,7 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
                     'label' => Mage::helper('sirateck_lemonway4ec')->__('No'),
                 ),
             ),
-           )
+            )
         );
 
         $fieldset->addField(
@@ -249,7 +249,7 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
             'required'  => true,
             'class' => 'required-entry',
 
-           )
+            )
         );
 
         $fieldset->addField(
@@ -261,7 +261,7 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
             'required'  => true,
             'class' => 'required-entry',
 
-           )
+            )
         );
 
         $fieldset->addField(
@@ -271,7 +271,7 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
                 'label' => Mage::helper('sirateck_lemonway4ec')->__('Company description'),
                 'name'  => 'company_description',
 
-           )
+            )
         );
 
         $fieldset->addField(
@@ -281,7 +281,7 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
                 'label' => Mage::helper('sirateck_lemonway4ec')->__('Company ID number'),
                 'name'  => 'company_id_number',
 
-           )
+            )
         );
 
         $fieldset->addField(
@@ -301,7 +301,7 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
                     'label' => Mage::helper('sirateck_lemonway4ec')->__('No'),
                 ),
             ),
-           )
+            )
         );
 
         $fieldset->addField(
@@ -312,7 +312,7 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
                 'name'  => 'customer_nationality',
 
             'values'=> Mage::getResourceModel('directory/country_collection')->toOptionArray(),
-           )
+            )
         );
 
         $fieldset->addField(
@@ -322,7 +322,7 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
                 'label' => Mage::helper('sirateck_lemonway4ec')->__('City of Birth'),
                 'name'  => 'customer_birth_city',
 
-           )
+            )
         );
 
         $fieldset->addField(
@@ -333,7 +333,7 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
                 'name'  => 'customer_birth_country',
 
             'values'=> Mage::getResourceModel('directory/country_collection')->toOptionArray(),
-           )
+            )
         );
 
         $fieldset->addField(
@@ -344,7 +344,7 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
                 'name'  => 'payer_or_beneficiary',
 
             'values'=> Mage::getModel('sirateck_lemonway4ec/wallet_attribute_source_payerorbeneficiary')->getAllOptions(true),
-           )
+            )
         );
 
         $fieldset->addField(
@@ -366,7 +366,7 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
                     'label' => Mage::helper('sirateck_lemonway4ec')->__('No'),
                 ),
             ),
-           )
+            )
         );
 
         $fieldset->addField(
@@ -388,7 +388,7 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
                     'label' => Mage::helper('sirateck_lemonway4ec')->__('No'),
                 ),
             ),
-           )
+            )
         );
         $fieldset->addField(
             'status',
@@ -412,12 +412,14 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
         if (!is_array($formValues)) {
             $formValues = array();
         }
+
         if (Mage::getSingleton('adminhtml/session')->getWalletData()) {
             $formValues = array_merge($formValues, Mage::getSingleton('adminhtml/session')->getWalletData());
             Mage::getSingleton('adminhtml/session')->setWalletData(null);
         } elseif (Mage::registry('current_wallet')) {
             $formValues = array_merge($formValues, Mage::registry('current_wallet')->getData());
         }
+
         $form->setValues($formValues);
         return parent::_prepareForm();
     }

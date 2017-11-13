@@ -42,6 +42,7 @@ class Sirateck_Lemonway4ec_Model_Attribute_Source_Country extends Mage_Eav_Model
                 Mage::app()->saveCache(serialize($options), $cacheKey, array('config'));
             }
         }
+
         return $options;
     }
 }

@@ -39,12 +39,12 @@
 </div>
 <div class="entry-edit">
 <?php if(isset($this->getWalletDetails()->lwError)): ?>
-	<div class="entry-edit-head">
+    <div class="entry-edit-head">
         <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Wallet informations') ?></h4>
     </div>
     <div class="box">
-    	<h5><?php echo $this->__("We can't retrieve your wallet!")?></h5> 
-    	<?php echo $this->__('<a href="%s">Please check your module configuration</a> or create your wallet in <a href="%s">Lemonway BO</a>.',Mage::helper("adminhtml")->getUrl('adminhtml/system_config/edit',array('section'=>"sirateck_lemonway4ec")),"https://www.lemonway.fr/MbDev/bo") ?>
+        <h5><?php echo $this->__("We can't retrieve your wallet!")?></h5> 
+        <?php echo $this->__('<a href="%s">Please check your module configuration</a> or create your wallet in <a href="%s">Lemonway BO</a>.', Mage::helper("adminhtml")->getUrl('adminhtml/system_config/edit', array('section'=>"sirateck_lemonway4ec")), "https://www.lemonway.fr/MbDev/bo") ?>
     </div>
 <?php else : ?>
 <?php
@@ -110,29 +110,29 @@ $_wallet = $this->getWalletDetails()->wallet;
         <legend><?php echo $this->__('Iban informations') ?></legend>
         <?php if(count($_wallet->getIbans())) :?>
         <table>
-	        <?php foreach ($_wallet->getIbans() as $_iban) :?>
-	        <tr>
-	        	<td>
-	        		<input class="required-entry" id="iban_<?php echo $_iban->getIbanId() ?>" type="radio" name="iban_id[]" value="<?php echo $_iban->getIbanId() ?>" />
-	        		 <input type="hidden" value="<?php echo $_iban->getIban() ?>" name="iban_<?php echo $_iban->getIbanId() ?>" />
-	        	</td>
-	        	<td class="a-left">
-		        	<label for="iban_<?php echo $_iban->getIbanId() ?>" >
-		        		<strong><?php echo $_iban->getIban() ?></strong>
-	                    <br />
-	                    <strong><?php echo $_iban->getSwift() ?></strong>
-	                    <br />
-	                   <?php echo $this->__('Status')?>&nbsp;<strong><?php echo $_iban->getStatus()?></strong>
-	                </label>
-				</td>
-	        </tr>
-	        <?php endforeach; ?>
+            <?php foreach ($_wallet->getIbans() as $_iban) :?>
+            <tr>
+                <td>
+                    <input class="required-entry" id="iban_<?php echo $_iban->getIbanId() ?>" type="radio" name="iban_id[]" value="<?php echo $_iban->getIbanId() ?>" />
+                     <input type="hidden" value="<?php echo $_iban->getIban() ?>" name="iban_<?php echo $_iban->getIbanId() ?>" />
+                </td>
+                <td class="a-left">
+                    <label for="iban_<?php echo $_iban->getIbanId() ?>" >
+                        <strong><?php echo $_iban->getIban() ?></strong>
+                        <br />
+                        <strong><?php echo $_iban->getSwift() ?></strong>
+                        <br />
+                       <?php echo $this->__('Status')?>&nbsp;<strong><?php echo $_iban->getStatus()?></strong>
+                    </label>
+                </td>
+            </tr>
+            <?php endforeach; ?>
         </table>
         <?php else:?>
-        	<div class="box">
-		    	<h5><?php echo $this->__("You don't have any Iban!")?></h5> 
-		    	<?php echo $this->__('Please create at least one for wallet <b>%s</b> in <a href="%s">Lemonway BO </a>.',$_wallet->getWalletId(),Mage::helper("adminhtml")->getUrl('adminhtml/system_config/edit',array('section'=>"sirateck_lemonway4ec")),"https://www.lemonway.fr/MbDev/bo") ?>
-		    </div>
+            <div class="box">
+                <h5><?php echo $this->__("You don't have any Iban!")?></h5> 
+                <?php echo $this->__('Please create at least one for wallet <b>%s</b> in <a href="%s">Lemonway BO </a>.', $_wallet->getWalletId(), Mage::helper("adminhtml")->getUrl('adminhtml/system_config/edit', array('section'=>"sirateck_lemonway4ec")), "https://www.lemonway.fr/MbDev/bo") ?>
+            </div>
         <?php endif; ?>
     </fieldset>
 </div>
@@ -140,33 +140,33 @@ $_wallet = $this->getWalletDetails()->wallet;
 <?php if ($this->canPayMoneyOut()): ?>
 <div class="clear"></div>
 <div class="box">
-	<div class="entry-edit-head">
-		<h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Payment informations') ?></h4>
-	</div>
-	<fieldset>
-		<legend><?php echo $this->__('Payment informations') ?></legend>
-		<div class="order-totals">
-		<table cellspacing="0" width="100%">
-				<colgroup>
-					<col>
-		    		<col width="1">
-		        </colgroup>
-		        <tr>
-					<td class="label"><?php echo $this->__('Current balance')?></td>
-					<td><strong><?php echo $this->formatPrice($_wallet->getBal())?></strong></td>
-				</tr>
-				<tr>
-					<td class="label"><?php echo $this->__('Amount to pay')?></td>
-					<td><input id="amountToPay" class="input-text not-negative-amount a-right"  type="text" value="<?php echo $_wallet->getBal()?>" name="amountToPay" /></td>
-				</tr>
-			</table>
-		 <div class="order-totals-bottom">
-	          <div class="divider"></div>
-	          <?php echo $this->getChildHtml('submit_button') ?>
-	     </div>
-		</div>
-	</fieldset>
-	<script type="text/javascript">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Payment informations') ?></h4>
+    </div>
+    <fieldset>
+        <legend><?php echo $this->__('Payment informations') ?></legend>
+        <div class="order-totals">
+        <table cellspacing="0" width="100%">
+                <colgroup>
+                    <col>
+                    <col width="1">
+                </colgroup>
+                <tr>
+                    <td class="label"><?php echo $this->__('Current balance')?></td>
+                    <td><strong><?php echo $this->formatPrice($_wallet->getBal())?></strong></td>
+                </tr>
+                <tr>
+                    <td class="label"><?php echo $this->__('Amount to pay')?></td>
+                    <td><input id="amountToPay" class="input-text not-negative-amount a-right"  type="text" value="<?php echo $_wallet->getBal()?>" name="amountToPay" /></td>
+                </tr>
+            </table>
+         <div class="order-totals-bottom">
+              <div class="divider"></div>
+              <?php echo $this->getChildHtml('submit_button') ?>
+         </div>
+        </div>
+    </fieldset>
+    <script type="text/javascript">
     //<![CDATA[
     Validation.addAllThese([
         ['not-negative-amount', '<?php echo $this->helper('sales')->__('Please enter positive number in this field.') ?>', function(v) {

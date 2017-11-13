@@ -51,6 +51,7 @@ class Sirateck_Lemonway4ec_Model_Wallet_Attribute_Source_Payerorbeneficiary exte
         if ($withEmpty) {
             array_unshift($options, array('label'=>'', 'value'=>''));
         }
+
         return $options;
 
     }
@@ -69,6 +70,7 @@ class Sirateck_Lemonway4ec_Model_Wallet_Attribute_Source_Payerorbeneficiary exte
         foreach ($this->getAllOptions($withEmpty) as $option) {
             $options[$option['value']] = $option['label'];
         }
+
         return $options;
     }
 
@@ -86,12 +88,14 @@ class Sirateck_Lemonway4ec_Model_Wallet_Attribute_Source_Payerorbeneficiary exte
         if (!is_array($value)) {
             $value = explode(',', $value);
         }
+
         $texts = array();
         foreach ($value as $v) {
             if (isset($options[$v])) {
                 $texts[] = $options[$v];
             }
         }
+
         return implode(', ', $texts);
     }
 }

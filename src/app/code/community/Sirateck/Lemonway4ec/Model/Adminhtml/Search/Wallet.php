@@ -37,6 +37,7 @@ class Sirateck_Lemonway4ec_Model_Adminhtml_Search_Wallet extends Varien_Object
             $this->setResults($arr);
             return $this;
         }
+
         $collection = Mage::getResourceModel('sirateck_lemonway4ec/wallet_collection')
             ->addFieldToFilter('wallet_id', array('like' => $this->getQuery().'%'))
             ->setCurPage($this->getStart())
@@ -54,6 +55,7 @@ class Sirateck_Lemonway4ec_Model_Adminhtml_Search_Wallet extends Varien_Object
                 ),
             );
         }
+
         $this->setResults($arr);
         return $this;
     }

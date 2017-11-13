@@ -40,47 +40,52 @@ class Sirateck_Lemonway4ec_Helper_Data extends Mage_Core_Helper_Abstract
                 $converted[$option['value']] = $option['label'];
             }
         }
+
         return $converted;
     }
     
-    public function reAddToCart($incrementId) {
+    public function reAddToCart($incrementId) 
+    {
     
-    	$cart = Mage::getSingleton('checkout/cart');
-    	$order = Mage::getModel('sales/order')->loadByIncrementId($incrementId);
+        $cart = Mage::getSingleton('checkout/cart');
+        $order = Mage::getModel('sales/order')->loadByIncrementId($incrementId);
     
-    	if ($order->getId()) {
-    		$items = $order->getItemsCollection();
-    		foreach ($items as $item) {
-    			try {
-    				$cart->addOrderItem($item);
-    			} catch (Mage_Core_Exception $e) {
-    				if (Mage::getSingleton('checkout/session')->getUseNotice(true)) {
-    					Mage::getSingleton('checkout/session')->addNotice($e->getMessage());
-    				} else {
-    					Mage::getSingleton('checkout/session')->addError($e->getMessage());
-    				}
-    			} catch (Exception $e) {
-    				Mage::getSingleton('checkout/session')->addException($e, Mage::helper('checkout')->__('Cannot add the item to shopping cart.')
-    						);
-    			}
-    		}
-    	}
+        if ($order->getId()) {
+            $items = $order->getItemsCollection();
+            foreach ($items as $item) {
+                try {
+                    $cart->addOrderItem($item);
+                } catch (Mage_Core_Exception $e) {
+                    if (Mage::getSingleton('checkout/session')->getUseNotice(true)) {
+                        Mage::getSingleton('checkout/session')->addNotice($e->getMessage());
+                    } else {
+                        Mage::getSingleton('checkout/session')->addError($e->getMessage());
+                    }
+                } catch (Exception $e) {
+                    Mage::getSingleton('checkout/session')->addException(
+                        $e, Mage::helper('checkout')->__('Cannot add the item to shopping cart.')
+                    );
+                }
+            }
+        }
     
-    	$cart->save();
+        $cart->save();
     }
     
     /**
      * @return Sirateck_Lemonway4ec_Model_Config
      */
-    public function getConfig(){
-    	return Mage::getSingleton('sirateck_lemonway4ec/config');
+    public function getConfig()
+    {
+        return Mage::getSingleton('sirateck_lemonway4ec/config');
     }
     
     /**
      * 
      * @return boolean
      */
-    public function oneStepCheckoutInstalled(){
-    	return Mage::getStoreConfigFlag('onestepcheckout/general/enabled');
+    public function oneStepCheckoutInstalled()
+    {
+        return Mage::getStoreConfigFlag('onestepcheckout/general/enabled');
     }
 }

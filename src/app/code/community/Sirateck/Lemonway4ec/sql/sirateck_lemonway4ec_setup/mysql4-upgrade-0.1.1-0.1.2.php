@@ -27,88 +27,88 @@ $installerCustomer = new Mage_Customer_Model_Entity_Setup('sirateck_lemonway4ec_
 $installerCustomer->startSetup();
 
 $entityId = $installerCustomer->getEntityTypeId('customer');
-$attribute = $installerCustomer->getAttribute($entityId,'lw_card_num');
+$attribute = $installerCustomer->getAttribute($entityId, 'lw_card_num');
 if(!$attribute)
 {
-	
-	$installerCustomer->addAttribute('customer','lw_card_num',array(
-		'type'         => 'varchar',
-	    'label'        => 'Card Num (one clic)',
-	    'visible'      => true,
-	    'required'     => false,
-		'unique'       => false,
-		'sort_order'   	   => 700,
-	    'default'	   => 0,
-		'input'		   => 'text',
+    $installerCustomer->addAttribute(
+        'customer', 'lw_card_num', array(
+        'type'         => 'varchar',
+        'label'        => 'Card Num (one clic)',
+        'visible'      => true,
+        'required'     => false,
+        'unique'       => false,
+        'sort_order'          => 700,
+        'default'       => 0,
+        'input'           => 'text',
 
-		));
-		
-	$usedInForms = array(
-				'adminhtml_customer',
-	        );
-	
-	$attribute   = Mage::getSingleton('eav/config')->getAttribute('customer', 'lw_card_num');
-	$attribute->setData('used_in_forms', $usedInForms);
-	$attribute->setData('sort_order', 700);
+        )
+    );
+        
+    $usedInForms = array(
+                'adminhtml_customer',
+            );
+    
+    $attribute   = Mage::getSingleton('eav/config')->getAttribute('customer', 'lw_card_num');
+    $attribute->setData('used_in_forms', $usedInForms);
+    $attribute->setData('sort_order', 700);
 
-	$attribute->save();
-
+    $attribute->save();
 }
 
-$attribute = $installerCustomer->getAttribute($entityId,'lw_card_exp');
+$attribute = $installerCustomer->getAttribute($entityId, 'lw_card_exp');
 if(!$attribute)
 {
+    $installerCustomer->addAttribute(
+        'customer', 'lw_card_exp', array(
+            'type'         => 'varchar',
+            'label'        => 'Card Expiration date (one clic)',
+            'visible'      => true,
+            'required'     => false,
+            'unique'       => false,
+            'sort_order'          => 700,
+            'default'       => 0,
+            'input'           => 'text',
 
-	$installerCustomer->addAttribute('customer','lw_card_exp',array(
-			'type'         => 'varchar',
-			'label'        => 'Card Expiration date (one clic)',
-			'visible'      => true,
-			'required'     => false,
-			'unique'       => false,
-			'sort_order'   	   => 700,
-			'default'	   => 0,
-			'input'		   => 'text',
+        )
+    );
 
-	));
+    $usedInForms = array(
+            'adminhtml_customer',
+    );
 
-	$usedInForms = array(
-			'adminhtml_customer',
-	);
+    $attribute   = Mage::getSingleton('eav/config')->getAttribute('customer', 'lw_card_exp');
+    $attribute->setData('used_in_forms', $usedInForms);
+    $attribute->setData('sort_order', 700);
 
-	$attribute   = Mage::getSingleton('eav/config')->getAttribute('customer', 'lw_card_exp');
-	$attribute->setData('used_in_forms', $usedInForms);
-	$attribute->setData('sort_order', 700);
-
-	$attribute->save();
-
+    $attribute->save();
 }
 
-$attribute = $installerCustomer->getAttribute($entityId,'lw_card_type');
+$attribute = $installerCustomer->getAttribute($entityId, 'lw_card_type');
 if(!$attribute)
 {
+    $installerCustomer->addAttribute(
+        'customer', 'lw_card_type', array(
+            'type'         => 'varchar',
+            'label'        => 'Card type (one clic)',
+            'visible'      => true,
+            'required'     => false,
+            'unique'       => false,
+            'sort_order'          => 700,
+            'default'       => 0,
+            'input'           => 'text',
 
-	$installerCustomer->addAttribute('customer','lw_card_type',array(
-			'type'         => 'varchar',
-			'label'        => 'Card type (one clic)',
-			'visible'      => true,
-			'required'     => false,
-			'unique'       => false,
-			'sort_order'   	   => 700,
-			'default'	   => 0,
-			'input'		   => 'text',
+        )
+    );
 
-	));
+    $usedInForms = array(
+            'adminhtml_customer',
+    );
 
-	$usedInForms = array(
-			'adminhtml_customer',
-	);
+    $attribute   = Mage::getSingleton('eav/config')->getAttribute('customer', 'lw_card_type');
+    $attribute->setData('used_in_forms', $usedInForms);
+    $attribute->setData('sort_order', 700);
 
-	$attribute   = Mage::getSingleton('eav/config')->getAttribute('customer', 'lw_card_type');
-	$attribute->setData('used_in_forms', $usedInForms);
-	$attribute->setData('sort_order', 700);
-
-	$attribute->save();
-
+    $attribute->save();
 }
 
 $installerCustomer->endSetup();

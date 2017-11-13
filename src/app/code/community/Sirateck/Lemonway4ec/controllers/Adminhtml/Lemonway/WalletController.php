@@ -36,6 +36,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
         if ($walletId) {
             $wallet->load($walletId);
         }
+
         Mage::register('current_wallet', $wallet);
         return $wallet;
     }
@@ -85,10 +86,12 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
             $this->_redirect('*/*/');
             return;
         }
+
         $data = Mage::getSingleton('adminhtml/session')->getWalletData(true);
         if (!empty($data)) {
             $wallet->setData($data);
         }
+
         Mage::register('wallet_data', $wallet);
         $this->loadLayout();
         $this->_title(Mage::helper('sirateck_lemonway4ec')->__('LW'))
@@ -98,9 +101,11 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
         } else {
             $this->_title(Mage::helper('sirateck_lemonway4ec')->__('Add wallet'));
         }
+
         if (Mage::getSingleton('cms/wysiwyg_config')->isEnabled()) {
             $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
         }
+
         $this->renderLayout();
     }
 
@@ -139,6 +144,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
                     $this->_redirect('*/*/edit', array('id' => $wallet->getId()));
                     return;
                 }
+
                 $this->_redirect('*/*/');
                 return;
             } catch (Mage_Core_Exception $e) {
@@ -156,6 +162,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
                 return;
             }
         }
+
         Mage::getSingleton('adminhtml/session')->addError(
             Mage::helper('sirateck_lemonway4ec')->__('Unable to find wallet to save.')
         );
@@ -171,7 +178,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
      */
     public function deleteAction()
     {
-        if ( $this->getRequest()->getParam('id') > 0) {
+        if ($this->getRequest()->getParam('id') > 0) {
             try {
                 $wallet = Mage::getModel('sirateck_lemonway4ec/wallet');
                 $wallet->setId($this->getRequest()->getParam('id'))->delete();
@@ -192,6 +199,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
                 return;
             }
         }
+
         Mage::getSingleton('adminhtml/session')->addError(
             Mage::helper('sirateck_lemonway4ec')->__('Could not find wallet to delete.')
         );
@@ -218,6 +226,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
                     $wallet = Mage::getModel('sirateck_lemonway4ec/wallet');
                     $wallet->setId($walletId)->delete();
                 }
+
                 Mage::getSingleton('adminhtml/session')->addSuccess(
                     Mage::helper('sirateck_lemonway4ec')->__('Total of %d wallets were successfully deleted.', count($walletIds))
                 );
@@ -230,6 +239,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
                 Mage::logException($e);
             }
         }
+
         $this->_redirect('*/*/index');
     }
 
@@ -255,6 +265,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
                             ->setIsMassupdate(true)
                             ->save();
                 }
+
                 $this->_getSession()->addSuccess(
                     $this->__('Total of %d wallets were successfully updated.', count($walletIds))
                 );
@@ -267,6 +278,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
                 Mage::logException($e);
             }
         }
+
         $this->_redirect('*/*/index');
     }
 
@@ -292,6 +304,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
                     ->setIsMassupdate(true)
                     ->save();
                 }
+
                 $this->_getSession()->addSuccess(
                     $this->__('Total of %d wallets were successfully updated.', count($walletIds))
                 );
@@ -304,6 +317,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
                 Mage::logException($e);
             }
         }
+
         $this->_redirect('*/*/index');
     }
 
@@ -329,6 +343,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
                     ->setIsMassupdate(true)
                     ->save();
                 }
+
                 $this->_getSession()->addSuccess(
                     $this->__('Total of %d wallets were successfully updated.', count($walletIds))
                 );
@@ -341,6 +356,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
                 Mage::logException($e);
             }
         }
+
         $this->_redirect('*/*/index');
     }
 
@@ -366,6 +382,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
                     ->setIsMassupdate(true)
                     ->save();
                 }
+
                 $this->_getSession()->addSuccess(
                     $this->__('Total of %d wallets were successfully updated.', count($walletIds))
                 );
@@ -378,6 +395,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
                 Mage::logException($e);
             }
         }
+
         $this->_redirect('*/*/index');
     }
 
@@ -403,6 +421,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
                     ->setIsMassupdate(true)
                     ->save();
                 }
+
                 $this->_getSession()->addSuccess(
                     $this->__('Total of %d wallets were successfully updated.', count($walletIds))
                 );
@@ -415,6 +434,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
                 Mage::logException($e);
             }
         }
+
         $this->_redirect('*/*/index');
     }
 
@@ -440,6 +460,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
                     ->setIsMassupdate(true)
                     ->save();
                 }
+
                 $this->_getSession()->addSuccess(
                     $this->__('Total of %d wallets were successfully updated.', count($walletIds))
                 );
@@ -452,6 +473,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
                 Mage::logException($e);
             }
         }
+
         $this->_redirect('*/*/index');
     }
 
@@ -477,6 +499,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
                     ->setIsMassupdate(true)
                     ->save();
                 }
+
                 $this->_getSession()->addSuccess(
                     $this->__('Total of %d wallets were successfully updated.', count($walletIds))
                 );
@@ -489,6 +512,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
                 Mage::logException($e);
             }
         }
+
         $this->_redirect('*/*/index');
     }
 
@@ -514,6 +538,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
                     ->setIsMassupdate(true)
                     ->save();
                 }
+
                 $this->_getSession()->addSuccess(
                     $this->__('Total of %d wallets were successfully updated.', count($walletIds))
                 );
@@ -526,6 +551,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
                 Mage::logException($e);
             }
         }
+
         $this->_redirect('*/*/index');
     }
 
@@ -551,6 +577,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
                     ->setIsMassupdate(true)
                     ->save();
                 }
+
                 $this->_getSession()->addSuccess(
                     $this->__('Total of %d wallets were successfully updated.', count($walletIds))
                 );
@@ -563,6 +590,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
                 Mage::logException($e);
             }
         }
+
         $this->_redirect('*/*/index');
     }
 
@@ -588,6 +616,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
                     ->setIsMassupdate(true)
                     ->save();
                 }
+
                 $this->_getSession()->addSuccess(
                     $this->__('Total of %d wallets were successfully updated.', count($walletIds))
                 );
@@ -600,6 +629,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
                 Mage::logException($e);
             }
         }
+
         $this->_redirect('*/*/index');
     }
 
