@@ -1,0 +1,164 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento_Lemonway_Ecommerce extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Lemonway
+ * @package        Magento_Lemonway_Ecommerce
+ * @copyright      Copyright (c) 2015
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+ -->
+<config>
+    <modules>
+        <Lemonway_Lemonway>
+            <version>1.1.3</version>
+        </Lemonway_Lemonway>
+    </modules>
+    <global>
+        <resources>
+            <Lemonway_lemonway_setup>
+                <setup>
+                    <module>Lemonway_Lemonway</module>
+                    <class>Lemonway_Lemonway_Model_Resource_Setup</class>
+                </setup>
+            </Lemonway_lemonway_setup>
+        </resources>
+        <blocks>
+            <Lemonway_lemonway>
+                <class>Lemonway_Lemonway_Block</class>
+            </Lemonway_lemonway>
+        </blocks>
+        <helpers>
+            <Lemonway_lemonway>
+                <class>Lemonway_Lemonway_Helper</class>
+            </Lemonway_lemonway>
+        </helpers>
+        <models>
+            <Lemonway_lemonway>
+                <class>Lemonway_Lemonway_Model</class>
+                <resourceModel>Lemonway_lemonway_resource</resourceModel>
+            </Lemonway_lemonway>
+            <Lemonway_lemonway_resource>
+                <class>Lemonway_Lemonway_Model_Resource</class>
+                <entities>
+                    <wallet>
+                        <table>Lemonway_lemonway_wallet</table>
+                    </wallet>
+                    <iban>
+                        <table>Lemonway_lemonway_iban</table>
+                    </iban>
+                </entities>
+            </Lemonway_lemonway_resource>
+        </models>
+    </global>
+    <frontend>
+		<secure_url>
+            <Lemonway_lemonway>/lemonway/payment</Lemonway_lemonway>
+        </secure_url>
+        <routers>
+            <Lemonway_lemonway>
+                <use>standard</use>
+                <args>
+                    <module>Lemonway_Lemonway</module>
+                    <frontName>lemonway</frontName>
+                </args>
+            </Lemonway_lemonway>
+        </routers>
+		<translate>
+            <modules>
+                <Lemonway_Lemonway>
+                    <files>
+                        <default>Lemonway_Lemonway.csv</default>
+                    </files>
+                </Lemonway_Lemonway>
+            </modules>
+        </translate>
+	</frontend>
+    <adminhtml>
+        <layout>
+            <updates>
+                <Lemonway_lemonway>
+                    <file>Lemonway_lemonway.xml</file>
+                </Lemonway_lemonway>
+            </updates>
+        </layout>
+        <events>
+            <adminhtml_init_system_config>
+                <observers>
+                    <paypal>
+                        <class>Lemonway_Lemonway_Model_Observer</class>
+                        <method>getWalletDetailsConfig</method>
+                    </paypal>
+                </observers>
+            </adminhtml_init_system_config>
+        </events>
+        <translate>
+            <modules>
+                <Lemonway_Lemonway>
+                    <files>
+                        <default>Lemonway_Lemonway.csv</default>
+                    </files>
+                </Lemonway_Lemonway>
+            </modules>
+        </translate>
+        <global_search>
+            <wallet>
+                <class>Lemonway_lemonway/adminhtml_search_wallet</class>
+                <acl>Lemonway_lemonway</acl>
+            </wallet>
+        </global_search>
+    </adminhtml>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Lemonway_Lemonway before="Mage_Adminhtml">Lemonway_Lemonway_Adminhtml</Lemonway_Lemonway>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <crontab>
+		<jobs>
+			<clean_orders_lw_in_pending>
+				<schedule><cron_expr>*/15 * * * *</cron_expr></schedule>
+				<run><model>Lemonway_lemonway/observer::cancelOrdersInPending</model></run>
+			</clean_orders_lw_in_pending>
+		</jobs>
+	</crontab>
+    <default>
+		<Lemonway_lemonway>
+			<lemonway_api>			
+				<api_pass backend_model="adminhtml/system_config_backend_encrypted"/>
+				<is_test_mode>0</is_test_mode>
+			</lemonway_api>
+		</Lemonway_lemonway>
+		<payment>
+			<lemonway_webkit>
+				<active>0</active>
+				<title>Lemonway payment</title>
+				<order_status>pending</order_status>
+				<order_status_success>processing</order_status_success>
+				<allow_oneclic>0</allow_oneclic>
+				<css_url>https://webkit.lemonway.fr/css/mercanet/mercanet_lw_custom.css</css_url>
+				<cancel_pending_order>0</cancel_pending_order>
+				<payment_action>initialize</payment_action>
+				<allowspecific>0</allowspecific>
+				<debug>0</debug>
+				<model>Lemonway_lemonway/method_webkit</model>
+				<return_url>lemonway/payment/return</return_url>
+				<cancel_url>lemonway/payment/cancel</cancel_url>
+				<error_url>lemonway/payment/error</error_url>	
+			</lemonway_webkit>
+		</payment>
+	</default>
+</config>
