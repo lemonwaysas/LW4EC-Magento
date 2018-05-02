@@ -308,9 +308,8 @@ class Lemonway_Lemonway_Model_Apikit_Kit
 
                 //Check error
                 if (isset($response->d->E)) {
-                    Mage::throwException($response->d->E->Msg, $response->d->E->Code);
+                    Mage::throwException($response->d->E->Msg . " (Error code: " . $response->d->E->Code . ")");
                 }
-
                 return $response->d;
             }
         }

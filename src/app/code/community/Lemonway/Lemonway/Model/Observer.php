@@ -55,6 +55,7 @@ class Lemonway_Lemonway_Model_Observer {
      */
     public function getWalletDetailsConfig()
     {
+
 //        $config = Mage::getConfig()->loadModulesConfiguration('system.xml')->applyExtends();
 //       // Mage::log($config,null,'logConfigLW.log');
 //        Mage::dispatchEvent('adminhtml_init_system_config', array('config' => $config));

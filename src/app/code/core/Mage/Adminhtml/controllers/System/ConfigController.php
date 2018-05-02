@@ -76,7 +76,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
         $current = $this->getRequest()->getParam('section');
         $website = $this->getRequest()->getParam('website');
-        $store   = $this->getRequest()->getParam('store');
+        $store = $this->getRequest()->getParam('store');
 
         Mage::getSingleton('adminhtml/config_data')
             ->setSection($current)
@@ -85,11 +85,11 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
 
         $configFields = Mage::getSingleton('adminhtml/config');
 
-        $sections     = $configFields->getSections($current);
-        $section      = $sections->$current;
-        $hasChildren  = $configFields->hasChildren($section, $website, $store);
+        $sections = $configFields->getSections($current);
+        $section = $sections->$current;
+        $hasChildren = $configFields->hasChildren($section, $website, $store);
         if (!$hasChildren && $current) {
-            $this->_redirect('*/*/', array('website'=>$website, 'store'=>$store));
+            $this->_redirect('*/*/', array('website' => $website, 'store' => $store));
         }
 
         $this->loadLayout();
@@ -136,7 +136,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
              * Carefully merge $_FILES and $_POST information
              * None of '+=' or 'array_merge_recursive' can do this correct
              */
-            foreach($_FILES['groups']['name'] as $groupName => $group) {
+            foreach ($_FILES['groups']['name'] as $groupName => $group) {
                 if (is_array($group)) {
                     foreach ($group['fields'] as $fieldName => $field) {
                         if (!empty($field['value'])) {
@@ -156,7 +156,8 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             $this->_saveSection();
             $section = $this->getRequest()->getParam('section');
             $website = $this->getRequest()->getParam('website');
-            $store   = $this->getRequest()->getParam('store');
+            $store = $this->getRequest()->getParam('store');
+
             Mage::getSingleton('adminhtml/config_data')
                 ->setSection($section)
                 ->setWebsite($website)
@@ -168,7 +169,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             Mage::getConfig()->reinit();
             Mage::dispatchEvent('admin_system_config_section_save_after', array(
                 'website' => $website,
-                'store'   => $store,
+                'store' => $store,
                 'section' => $section
             ));
             Mage::app()->reinitStores();
@@ -178,13 +179,11 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
                 array('website' => $website, 'store' => $store)
             );
             $session->addSuccess(Mage::helper('adminhtml')->__('The configuration has been saved.'));
-        }
-        catch (Mage_Core_Exception $e) {
-            foreach(explode("\n", $e->getMessage()) as $message) {
+        } catch (Mage_Core_Exception $e) {
+            foreach (explode("\n", $e->getMessage()) as $message) {
                 $session->addError($message);
             }
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $session->addException($e,
                 Mage::helper('adminhtml')->__('An error occurred while saving this configuration:') . ' '
                 . $e->getMessage());
@@ -198,7 +197,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
     /**
      *  Custom save logic for section
      */
-    protected function _saveSection ()
+    protected function _saveSection()
     {
         $method = '_save' . uc_words($this->getRequest()->getParam('section'), '');
         if (method_exists($this, $method)) {
@@ -225,8 +224,8 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
     public function stateAction()
     {
         if ($this->getRequest()->getParam('isAjax') == 1
-                    && $this->getRequest()->getParam('container') != ''
-                        && $this->getRequest()->getParam('value') != '') {
+            && $this->getRequest()->getParam('container') != ''
+            && $this->getRequest()->getParam('value') != '') {
 
             $configState = array(
                 $this->getRequest()->getParam('container') => $this->getRequest()->getParam('value')
@@ -242,17 +241,17 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
      */
     public function exportTableratesAction()
     {
-        $fileName   = 'tablerates.csv';
+        $fileName = 'tablerates.csv';
         /** @var $gridBlock Mage_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid */
-        $gridBlock  = $this->getLayout()->createBlock('adminhtml/shipping_carrier_tablerate_grid');
-        $website    = Mage::app()->getWebsite($this->getRequest()->getParam('website'));
+        $gridBlock = $this->getLayout()->createBlock('adminhtml/shipping_carrier_tablerate_grid');
+        $website = Mage::app()->getWebsite($this->getRequest()->getParam('website'));
         if ($this->getRequest()->getParam('conditionName')) {
             $conditionName = $this->getRequest()->getParam('conditionName');
         } else {
             $conditionName = $website->getConfig('carriers/tablerate/condition_name');
         }
         $gridBlock->setWebsiteId($website->getId())->setConditionName($conditionName);
-        $content    = $gridBlock->getCsvFile();
+        $content = $gridBlock->getCsvFile();
         $this->_prepareDownloadResponse($fileName, $content);
     }
 
@@ -286,13 +285,11 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
                 }
                 return true;
             }
-        }
-        catch (Zend_Acl_Exception $e) {
+        } catch (Zend_Acl_Exception $e) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return false;
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $this->deniedAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return false;
@@ -321,7 +318,6 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
             }
             $adminUser->saveExtra($extra);
         }
-
         return true;
     }
 }
