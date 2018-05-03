@@ -253,7 +253,6 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         Mage::dispatchEvent('model_load_before', $params);
         $params = array_merge($params, $this->_getEventData());
         Mage::dispatchEvent($this->_eventPrefix . '_load_before', $params);
-        Mage::log("before", null, 'before.log');
         return $this;
     }
 

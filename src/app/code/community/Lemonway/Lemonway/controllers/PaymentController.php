@@ -68,13 +68,10 @@ class Lemonway_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
             /* @var $kit Lemonway_Lemonway_Model_Apikit_Kit */
             $kit = Mage::getSingleton('Lemonway_lemonway/apikit_kit');
             $res = $kit->GetMoneyInTransDetails($params);
-            Mage::log(print_r($res, true), null, 'money.log');
             if (isset($res->lwError)) {
                 Mage::throwException("Error code: " . $res->lwError->getCode() . " Message: " . $res->lwError->getMessage());
             }
-
-            $this->_moneyin_trans_details = current($res->operations);
-
+            $this->_moneyin_trans_details = $res;
         }
         return $this->_moneyin_trans_details;
     }
@@ -155,12 +152,10 @@ class Lemonway_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
     private function doublecheckAmount($amount)
     {
         $details = $this->getMoneyInTransDetails();
-        //Mage::log(print_r('detaills : '.$details,true),null,'Money.log');
         // CREDIT + COMMISSION
-        $realAmountDoublecheck = $details->getCreditAmount() + $details->getFees();
-        //Mage::log(print_r($realAmountDoublecheck,true),null,'Amount.log');
+        $realAmountDoublecheck = $details->TRANS->HPAY[0]->COM + $details->TRANS->HPAY[0]->CRED;
         // Status 3 means success
-        return (($details->getStatus() == '3') && ($amount == $realAmountDoublecheck));
+        return (($details->TRANS->HPAY[0]->STATUS == '3') && ($amount == $realAmountDoublecheck));
     }
 
     /**
@@ -169,13 +164,12 @@ class Lemonway_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
      */
     public function returnAction()
     {
-
         $params = $this->getRequest()->getParams();
         if ($this->getRequest()->isGet()) {
             $successUrl = 'checkout/onepage/success';
             $order = $this->_getOrder();
             $this->doublecheckAmount($order->getBaseGrandTotal());
-            Mage::log(print_r($order->getBaseGrandTotal(), true), null, 'Order.log');
+
             if (Mage::helper('Lemonway_lemonway')->oneStepCheckoutInstalled()) {
                 $successUrl = 'onestepcheckout/index/success';
             }

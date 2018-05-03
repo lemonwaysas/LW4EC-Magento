@@ -2,216 +2,172 @@
 
 class Lemonway_Lemonway_Model_Apikit_Kit
 {
-
     public function RegisterWallet($params)
     {
-        $res = $this->sendRequest('RegisterWallet', $params, '1.1');
-        if (!isset($res->lwError)) {
-            $res->wallet = Mage::getModel('Lemonway_lemonway/apikit_apimodels_wallet', array($res->lwXml->WALLET));//new Wallet($res->lwXml->WALLET);
-        }
-        return $res;
+        return $this->sendRequest('RegisterWallet', $params);
     }
 
     public function MoneyIn($params)
     {
-        $res = $this->sendRequest('MoneyIn', $params, '1.1');
-        if (!isset($res->lwError)) {
-            $res->operations = array(Mage::getModel('Lemonway_lemonway/apikit_apimodels_operation', array($res->lwXml->TRANS->HPAY)));// array(new Operation($res->lwXml->TRANS->HPAY));
-        }
-        return $res;
+        return $this->sendRequest('MoneyIn', $params);
     }
 
     public function UpdateWalletDetails($params)
     {
-        $res = $this->sendRequest('UpdateWalletDetails', $params, '1.0');
-        if (!isset($res->lwError)) {
-            $res->wallet = Mage::getModel('Lemonway_lemonway/apikit_apimodels_wallet', array($res->lwXml->WALLET));
-        }
-        return $res;
+        return $this->sendRequest('UpdateWalletDetails', $params);
     }
 
     public function GetWalletDetails($params)
     {
-        $res = $this->sendRequest('GetWalletDetails', $params, '1.5');
-//        if (!isset($res->lwError)) {
-//            $res->wallet = Mage::getModel('Lemonway_lemonway/apikit_apimodels_wallet', array($res->lwXml->WALLET));
-//        }
-        return $res;
+        return $this->sendRequest('GetWalletDetails', $params);
     }
 
     public function MoneyIn3DInit($params)
     {
-        return $this->sendRequest('MoneyIn3DInit', $params, '1.1');
+        return $this->sendRequest('MoneyIn3DInit', $params);
     }
 
     public function MoneyIn3DConfirm($params)
     {
-        return $this->sendRequest('MoneyIn3DConfirm', $params, '1.1');
+        return $this->sendRequest('MoneyIn3DConfirm', $params);
     }
 
     public function MoneyInWebInit($params)
     {
-        return $this->sendRequest('MoneyInWebInit', $params, '1.3');
+        return $this->sendRequest('MoneyInWebInit', $params);
     }
 
     public function RegisterCard($params)
     {
-        return $this->sendRequest('RegisterCard', $params, '1.1');
+        return $this->sendRequest('RegisterCard', $params);
     }
 
     public function UnregisterCard($params)
     {
-        return $this->sendRequest('UnregisterCard', $params, '1.0');
+        return $this->sendRequest('UnregisterCard', $params);
     }
 
     public function MoneyInWithCardId($params)
     {
-        $res = $this->sendRequest('MoneyInWithCardId', $params, '1.1');
-        if (!isset($res->lwError)) {
-            $res->operations = array(Mage::getModel('Lemonway_lemonway/apikit_apimodels_operation', array($res->lwXml->TRANS->HPAY)));
-        }
-        return $res;
+        return $this->sendRequest('MoneyInWithCardId', $params);
     }
 
     public function MoneyInValidate($params)
     {
-        return $this->sendRequest('MoneyInValidate', $params, '1.0');
+        return $this->sendRequest('MoneyInValidate', $params);
     }
 
     public function SendPayment($params)
     {
-        $res = $this->sendRequest('SendPayment', $params, '1.0');
-        if (!isset($res->lwError)) {
-            $res->operations = array(Mage::getModel('Lemonway_lemonway/apikit_apimodels_operation', array($res->lwXml->TRANS->HPAY)));
-        }
-        return $res;
+        return $this->sendRequest('SendPayment', $params);
     }
 
     public function RegisterIBAN($params)
     {
-        $res = $this->sendRequest('RegisterIBAN', $params, '1.1');
-        if (!isset($res->lwError)) {
-            $res->iban = Mage::getModel('Lemonway_lemonway/apikit_apimodels_iban', array($res->lwXml->IBAN));;//new Iban($res->lwXml->IBAN);
-        }
-        return $res;
+        return $this->sendRequest('RegisterIBAN', $params);
     }
 
     public function MoneyOut($params)
     {
-        $res = $this->sendRequest('MoneyOut', $params, '1.3');
-        if (!isset($res->lwError)) {
-            $res->operations = array(Mage::getModel('Lemonway_lemonway/apikit_apimodels_operation', array($res->lwXml->TRANS->HPAY)));
-        }
-        return $res;
+        return $this->sendRequest('MoneyOut', $params);
     }
 
     public function GetPaymentDetails($params)
     {
-        $res = $this->sendRequest('GetPaymentDetails', $params, '1.0');
-        if (!isset($res->lwError)) {
-            $res->operations = array();
-            foreach ($res->lwXml->TRANS->HPAY as $HPAY) {
-                $res->operations[] = Mage::getModel('Lemonway_lemonway/apikit_apimodels_operation', array($HPAY));
-            }
-        }
-        return $res;
+        return $this->sendRequest('GetPaymentDetails', $params);
+
     }
 
     public function GetMoneyInTransDetails($params)
     {
-        $res = $this->sendRequest('GetMoneyInTransDetails', $params, '1.8');
-        if (!isset($res->lwError)) {
-            $res->operations = array();
-            foreach ($res->TRANS->HPAY as $HPAY) {
-                $res->operations[] = Mage::getModel('Lemonway_lemonway/apikit_apimodels_operation', array($HPAY));
-            }
-        }
-        return $res;
+        return $this->sendRequest('GetMoneyInTransDetails', $params);
     }
 
     public function GetMoneyOutTransDetails($params)
     {
-        $res = $this->sendRequest('GetMoneyOutTransDetails', $params, '1.4');
-        if (!isset($res->lwError)) {
-            $res->operations = array();
-            foreach ($res->lwXml->TRANS->HPAY as $HPAY) {
-                $res->operations[] = Mage::getModel('Lemonway_lemonway/apikit_apimodels_operation', array($HPAY));
-            }
-        }
-        return $res;
+        return $this->sendRequest('GetMoneyOutTransDetails', $params);
     }
 
     public function UploadFile($params)
     {
-        $res = $this->sendRequest('UploadFile', $params, '1.1');
-        if (!isset($res->lwError)) {
-            $res->kycDoc = Mage::getModel('Lemonway_lemonway/apikit_apimodels_kycDoc', array($res->lwXml->UPLOAD));;//new KycDoc($res->lwXml->UPLOAD);
-        }
-        return $res;
+        return $this->sendRequest('UploadFile', $params);
     }
 
     public function GetKycStatus($params)
     {
-        return $this->sendRequest('GetKycStatus', $params, '1.5');
+        return $this->sendRequest('GetKycStatus', $params);
     }
 
     public function GetMoneyInIBANDetails($params)
     {
-        return $this->sendRequest('GetMoneyInIBANDetails', $params, '1.4');
+        return $this->sendRequest('GetMoneyInIBANDetails', $params);
     }
 
     public function RefundMoneyIn($params)
     {
-        return $this->sendRequest('RefundMoneyIn', $params, '1.2');
+        return $this->sendRequest('RefundMoneyIn', $params);
     }
 
     public function GetBalances($params)
     {
-        return $this->sendRequest('GetBalances', $params, '1.0');
+        return $this->sendRequest('GetBalances', $params);
+
     }
 
     public function MoneyIn3DAuthenticate($params)
     {
-        return $this->sendRequest('MoneyIn3DAuthenticate', $params, '1.0');
+        return $this->sendRequest('MoneyIn3DAuthenticate', $params);
+
     }
 
     public function MoneyInIDealInit($params)
     {
-        return $this->sendRequest('MoneyInIDealInit', $params, '1.0');
+        return $this->sendRequest('MoneyInIDealInit', $params);
     }
 
     public function MoneyInIDealConfirm($params)
     {
-        return $this->sendRequest('MoneyInIDealConfirm', $params, '1.0');
+        return $this->sendRequest('MoneyInIDealConfirm', $params);
     }
 
     public function RegisterSddMandate($params)
     {
-        $res = $this->sendRequest('RegisterSddMandate', $params, '1.0');
-        if (!isset($res->lwError)) {
-            $res->sddMandate = Mage::getModel('Lemonway_lemonway/apikit_apimodels_sddMandate', array($res->lwXml->SDDMANDATE));;//new SddMandate($res->lwXml->SDDMANDATE);
-        }
-        return $res;
+        return $this->sendRequest('RegisterSddMandate', $params);
     }
 
     public function UnregisterSddMandate($params)
     {
-        return $this->sendRequest('UnregisterSddMandate', $params, '1.0');
+        return $this->sendRequest('UnregisterSddMandate', $params);
     }
 
     public function MoneyInSddInit($params)
     {
-        return $this->sendRequest('MoneyInSddInit', $params, '1.0');
+        return $this->sendRequest('MoneyInSddInit', $params);
     }
 
     public function GetMoneyInSdd($params)
     {
-        return $this->sendRequest('GetMoneyInSdd', $params, '1.0');
+        return $this->sendRequest('GetMoneyInSdd', $params);
     }
 
     public function GetMoneyInChequeDetails($params)
     {
-        return $this->sendRequest('GetMoneyInChequeDetails', $params, '1.4');
+        return $this->sendRequest('GetMoneyInChequeDetails', $params);
+    }
+
+    private function getUserIP()
+    {
+        $ip = '';
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } elseif (!empty($_SERVER['REMOTE_ADDR'])) {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        } else {
+            $ip = "127.0.0.1";
+        }
+        return $ip;
     }
 
     /**
@@ -221,32 +177,26 @@ class Lemonway_Lemonway_Model_Apikit_Kit
      * @param float $version
      * @return Lemonway_Lemonway_Model_Apikit_Apiresponse $apiResponse
      */
-    private function sendRequest($methodName, $params, $version)
+    private function sendRequest($methodName, $params)
     {
         $ua = '';
         if (isset($_SERVER['HTTP_USER_AGENT']))
             $ua = $_SERVER['HTTP_USER_AGENT'];
-        $ip = '';
-        if (isset($_SERVER['REMOTE_ADDR']))
-            $ip = $_SERVER['REMOTE_ADDR'];
+
 
         $baseParams = array(
             'wlLogin' => $this->getConfig()->getApiLogin(),
             'wlPass' => $this->getConfig()->getApiPass(),
             'language' => 'fr',
-            'version' => $version,
-            'walletIp' => $ip,
+            'version' => '10.0',
+            'walletIp' => $this->getUserIP(),
             'walletUa' => $ua,
         );
-
 
         $requestParams = array_merge($baseParams, $params);
         $requestParams = array('p' => $requestParams);
 
-
         Mage::log(json_encode($requestParams), null, 'logfile.log');
-
-        //self::printDirectkitInput($requestParams);
 
         $headers = array(
             "Content-type: application/json; charset=utf-8",
@@ -254,7 +204,6 @@ class Lemonway_Lemonway_Model_Apikit_Kit
             "Cache-Control: no-cache",
             "Pragma: no-cache"
         );
-
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $this->getConfig()->getDirectkitUrl() . '/' . $methodName);
@@ -269,7 +218,6 @@ class Lemonway_Lemonway_Model_Apikit_Kit
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         //Mage::log($this->getConfig()->getDirectkitUrl());
         $response = curl_exec($ch);
-
         Mage::log($response, null, 'logfile.log');
 
         if (curl_errno($ch)) {
@@ -278,9 +226,6 @@ class Lemonway_Lemonway_Model_Apikit_Kit
             $responseCode = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
             Mage::log($responseCode, null, 'logfile.log');
 
-            $error = true;
-
-            $message = "";
             switch ($responseCode) {
                 case 200:
                     break;
@@ -300,7 +245,6 @@ class Lemonway_Lemonway_Model_Apikit_Kit
                     sprintf("HTTP CODE %d IS NOT SUPPORTED", $responseCode);
                     break;
             }
-
 
             if ($responseCode == 200) {
                 //General parsing
