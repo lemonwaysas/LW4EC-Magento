@@ -168,10 +168,8 @@ class Lemonway_Lemonway_Model_Method_Webkit extends Mage_Payment_Model_Method_Ab
                 if (isset($res->lwError)) {
                     Mage::throwException("Error code: " . $res->lwError->getCode() . " Message: " . $res->lwError->getMessage());
                 }
-
                 /* @var $op Lemonway_Lemonway_Model_Apikit_Apimodels_Operation */
                 foreach ($res->operations as $op) {
-
                     if ($op->getStatus() == "3") {
                         $this->getOrder()->getPayment()->setAmountAuthorized($this->getOrder()->getTotalDue());
                         $this->getOrder()->getPayment()->setBaseAmountAuthorized($this->getOrder()->getBaseTotalDue());
@@ -183,9 +181,7 @@ class Lemonway_Lemonway_Model_Method_Webkit extends Mage_Payment_Model_Method_Ab
                         $this->getOrder()->setCanSendNewEmailFlag(true);
                         break;
                     }
-
                 }
-
             } else {
                 Mage::throwException(Mage::helper('Lemonway_lemonway')->__("Customer not found!"));
             }

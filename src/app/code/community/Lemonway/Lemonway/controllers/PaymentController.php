@@ -176,6 +176,7 @@ class Lemonway_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
             $this->_redirect($successUrl);
 
             return $this;
+
         } elseif ($this->getRequest()->isPost()) {
             if ($params['response_code'] == "0000") {
                 //DATA POST FROM NOTIFICATION
