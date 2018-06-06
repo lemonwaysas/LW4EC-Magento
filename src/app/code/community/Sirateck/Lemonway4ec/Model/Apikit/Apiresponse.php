@@ -1,13 +1,18 @@
 <?php
 class Sirateck_Lemonway4ec_Model_Apikit_Apiresponse
 {
-    
-    function __construct($xmlResponseArr) 
+    public function __construct($xmlResponseArr) 
     {
         $xmlResponse = $xmlResponseArr[0];
         $this->lwXml = $xmlResponse;
-        if (isset($xmlResponse->E)){
-            $this->lwError = Mage::getModel("sirateck_lemonway4ec/apikit_apimodels_lwError", array($xmlResponse->E->Code, $xmlResponse->E->Msg));
+        if (isset($xmlResponse->E)) {
+            $this->lwError = Mage::getModel(
+                "sirateck_lemonway4ec/apikit_apimodels_lwError",
+                array(
+                    $xmlResponse->E->Code,
+                    $xmlResponse->E->Msg
+                )
+            );
         }
     }
     

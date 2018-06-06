@@ -18,13 +18,9 @@
  */
 class Sirateck_Lemonway4ec_Model_Apikit_Apimodels_Operation extends Varien_Object
 {
-
-
-    
-    function __construct($hpayXmlArr = array()) 
+    public function __construct($hpayXmlArr = array()) 
     {
-        if(count($hpayXmlArr))
-        {
+        if ($hpayXmlArr) {
             $hpayXml = $hpayXmlArr[0];
             $this->_data['hpay_id'] = (int)$hpayXml->ID;
             $this->_data['sender_wallet'] = (string)$hpayXml->SEN;
@@ -35,62 +31,10 @@ class Sirateck_Lemonway4ec_Model_Apikit_Apimodels_Operation extends Varien_Objec
             $this->_data['status'] = (int)$hpayXml->STATUS;
             $this->_data['label_code'] = (string)$hpayXml->MLABEL;
             $this->_data['error_message'] = (string)$hpayXml->INT_MSG;
-            $this->_data['extra'] = new EXTRA($hpayXml->EXTRA);
+            $this->_data['extra'] = Mage::getModel(
+                'sirateck_lemonway4ec/apikit_apimodels_extra',
+                array($hpayXml->EXTRA)
+            );
         }
-    }
-}
-
-/**
- * Detailed information regarding Card payment
- */
-class EXTRA
-{
-    /**
-     * IS3DS indicates if payment was 3D Secure
-     * @var bool
-     */
-    public $IS3DS;
-    
-    /**
-     * CTRY country of card
-     * @var string
-     */
-    public $CTRY;
-    
-    /**
-     * AUTH authorization number
-     * @var string
-     */
-    public $AUTH;
-    
-    /**
-     * Number of registered card
-     * @var string
-     * @since api version 1.8
-     */
-    public $NUM;
-    
-    /**
-     * Expiration date of registered card
-     * @var string
-     * @since api version 1.8
-     */
-    public $EXP;
-
-    /**
-     * Type of card
-     * @var string
-     * @since api version 1.8
-     */
-    public $TYP;
-    
-    function __construct($extraXml) 
-    {
-        $this->AUTH = $extraXml->AUTH;
-        $this->IS3DS = $extraXml->IS3DS;
-        $this->CTRY = $extraXml->CTRY;
-        $this->NUM = $extraXml->NUM;
-        $this->EXP = $extraXml->EXP;
-        $this->TYP = $extraXml->TYP;
     }
 }

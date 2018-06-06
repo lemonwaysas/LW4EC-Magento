@@ -12,11 +12,9 @@
  */
 class Sirateck_Lemonway4ec_Model_Apikit_Apimodels_Wallet extends Varien_Object
 {
-    
-    function __construct($WALLETArr = array()) 
+    public function __construct($WALLETArr = array()) 
     {
-        if(count($WALLETArr))
-        {
+        if ($WALLETArr) {
             $WALLET = $WALLETArr[0];
             $this->_data['wallet_id'] = $WALLET->ID;
             $this->_data['lwid'] = $WALLET->LWID;
@@ -25,22 +23,34 @@ class Sirateck_Lemonway4ec_Model_Apikit_Apimodels_Wallet extends Varien_Object
             $this->_data['name'] = $WALLET->NAME;
             $this->_data['email'] = $WALLET->EMAIL;
             $this->_data['kyc_docs'] = array();
-            if (isset($WALLET->DOCS))
-                foreach ($WALLET->DOCS->DOC as $DOC){
-                    $this->_data['kyc_docs'][] = Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_kycDoc', array($DOC));//new KycDoc($DOC);
+            if (isset($WALLET->DOCS)) {
+                foreach ($WALLET->DOCS->DOC as $DOC) {
+                    $this->_data['kyc_docs'][] = Mage::getModel(
+                        'sirateck_lemonway4ec/apikit_apimodels_kycDoc',
+                        array($DOC)
+                    );
                 }
+            }
 
             $this->_data['ibans'] = array();
-            if (isset($WALLET->IBANS))
-                foreach ($WALLET->IBANS->IBAN as $IBAN){
-                    $this->_data['ibans'][] = Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_iban', array($IBAN));//new Iban($IBAN);
+            if (isset($WALLET->IBANS)) {
+                foreach ($WALLET->IBANS->IBAN as $IBAN) {
+                    $this->_data['ibans'][] = Mage::getModel(
+                        'sirateck_lemonway4ec/apikit_apimodels_iban',
+                        array($IBAN)
+                    );
                 }
+            }
 
             $this->_data['ssd_mandates'] = array();
-            if (isset($WALLET->SDDMANDATES))
-                foreach ($WALLET->SDDMANDATES->SDDMANDATE as $SDDMANDATE){
-                    $this->_data['ssd_mandates'][] = Mage::getModel('sirateck_lemonway4ec/apikit_apimodels_ssdMandate', array($SDDMANDATE));//new SddMandate($SDDMANDATE);
+            if (isset($WALLET->SDDMANDATES)) {
+                foreach ($WALLET->SDDMANDATES->SDDMANDATE as $SDDMANDATE) {
+                    $this->_data['ssd_mandates'][] = Mage::getModel(
+                        'sirateck_lemonway4ec/apikit_apimodels_ssdMandate',
+                        array($SDDMANDATE)
+                    );
                 }
+            }
         }
     }
     

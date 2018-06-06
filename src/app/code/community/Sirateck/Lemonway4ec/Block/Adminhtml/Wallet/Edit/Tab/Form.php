@@ -342,8 +342,8 @@ class Sirateck_Lemonway4ec_Block_Adminhtml_Wallet_Edit_Tab_Form extends Mage_Adm
             array(
                 'label' => Mage::helper('sirateck_lemonway4ec')->__('Payer or beneficiary'),
                 'name'  => 'payer_or_beneficiary',
-
-            'values'=> Mage::getModel('sirateck_lemonway4ec/wallet_attribute_source_payerorbeneficiary')->getAllOptions(true),
+                'values'=> Mage::getModel('sirateck_lemonway4ec/wallet_attribute_source_payerorbeneficiary')
+                        ->getAllOptions(true),
             )
         );
 

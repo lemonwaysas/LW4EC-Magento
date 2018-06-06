@@ -2,7 +2,6 @@
 
 class Sirateck_Lemonway4ec_Model_Apikit_Apimodels_SddMandate
 {
-
     /**
      * ID as defined by Lemon Way
      * @var string
@@ -27,18 +26,25 @@ class Sirateck_Lemonway4ec_Model_Apikit_Apimodels_SddMandate
      */
     public $BIC;
     
-    function __construct($nodeArr) 
+    public function __construct($nodeArr) 
     {
         $node = $nodeArr[0];
         $this->ID = $node->ID;
-        if (isset($node->STATUS))
+        
+        if (isset($node->STATUS)) {
             $this->STATUS = $node->STATUS;
-        if (isset($node->S))
+        }
+
+        if (isset($node->S)) {
             $this->STATUS = $node->S;
-        if (isset($node->DATA))
+        }
+
+        if (isset($node->DATA)) {
             $this->IBAN = $node->DATA;
-        if (isset($node->SWIFT))
+        }
+
+        if (isset($node->SWIFT)) {
             $this->BIC = $node->SWIFT;
-    }
-    
+        }
+    } 
 }

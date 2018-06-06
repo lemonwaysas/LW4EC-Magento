@@ -8,12 +8,9 @@
  */
 class Sirateck_Lemonway4ec_Model_Apikit_Apimodels_LwError Extends Varien_Object
 {
-
-    
-    function __construct($arr = array()) 
+    public function __construct($arr = array()) 
     {
-        if(count($arr) > 0)
-        {        
+        if ($arr) {        
             $this->_data['code'] = $arr[0];
             $this->_data['message'] = $arr[1];
         }

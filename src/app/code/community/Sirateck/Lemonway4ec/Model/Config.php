@@ -133,32 +133,30 @@ class Sirateck_Lemonway4ec_Model_Config extends Varien_Object
      */
     public function getMode($storeId=null)
     {
-        if($this->isTestMode($storeId)) return self::MODE_TEST;
+        if ($this->isTestMode($storeId)) {
+            return self::MODE_TEST;
+        }
         
         return self::MODE_PROD;
     }
     
     public function getDirectkitUrl($storeId=null)
     {
-        
-        $url = self::DIRECTKIT_URL;    
-        if($this->isTestMode($storeId))
+        $url = self::DIRECTKIT_URL;
+
+        if ($this->isTestMode($storeId)) {
             $url = self::DIRECTKIT_URL_TEST;    
-        
+        }
+
         return $url;
-        
     }
     
     public function getWebkitUrl($storeId=null)
     {
-        
         $url = self::WEBKIT_URL;    
         if($this->isTestMode($storeId))
             $url = self::WEBKIT_URL_TEST;
         
         return $url;
-    
     }
-    
-    
 }

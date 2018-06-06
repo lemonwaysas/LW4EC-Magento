@@ -2,7 +2,6 @@
 
 class Sirateck_Lemonway4ec_Model_Apikit_Apimodels_KycDoc
 {
-
     /**
      * ID as defined by Lemon Way
      * @var string
@@ -27,7 +26,7 @@ class Sirateck_Lemonway4ec_Model_Apikit_Apimodels_KycDoc
      */
     public $VD;
     
-    function __construct($nodeArr) 
+    public function __construct($nodeArr) 
     {
         $node = $nodeArr[0];
         $this->ID = $node->ID;

@@ -108,9 +108,9 @@ $_wallet = $this->getWalletDetails()->wallet;
     </div>
     <fieldset>
         <legend><?php echo $this->__('Iban informations') ?></legend>
-        <?php if(count($_wallet->getIbans())) :?>
+        <?php if($_wallet->getIbans()) :?>
         <table>
-            <?php foreach ($_wallet->getIbans() as $_iban) :?>
+            <?php foreach ($_wallet->getIbans() as $_iban) : ?>
             <tr>
                 <td>
                     <input class="required-entry" id="iban_<?php echo $_iban->getIbanId() ?>" type="radio" name="iban_id[]" value="<?php echo $_iban->getIbanId() ?>" />
@@ -122,7 +122,7 @@ $_wallet = $this->getWalletDetails()->wallet;
                         <br />
                         <strong><?php echo $_iban->getSwift() ?></strong>
                         <br />
-                       <?php echo $this->__('Status')?>&nbsp;<strong><?php echo $_iban->getStatus()?></strong>
+                       <?php echo $this->__('Status') ?>&nbsp;<strong><?php echo $_iban->getStatus() ?></strong>
                     </label>
                 </td>
             </tr>

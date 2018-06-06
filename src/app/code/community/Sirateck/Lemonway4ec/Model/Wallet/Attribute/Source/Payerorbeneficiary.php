@@ -21,7 +21,8 @@
  * @package     Sirateck_Lemonway4ec
  * @author Kassim Belghait kassim@sirateck.com
  */
-class Sirateck_Lemonway4ec_Model_Wallet_Attribute_Source_Payerorbeneficiary extends Mage_Eav_Model_Entity_Attribute_Source_Table
+class Sirateck_Lemonway4ec_Model_Wallet_Attribute_Source_Payerorbeneficiary
+extends Mage_Eav_Model_Entity_Attribute_Source_Table
 {
     /**
      * get possible values
@@ -48,12 +49,12 @@ class Sirateck_Lemonway4ec_Model_Wallet_Attribute_Source_Payerorbeneficiary exte
                 'value' => 3
             ),
         );
+
         if ($withEmpty) {
             array_unshift($options, array('label'=>'', 'value'=>''));
         }
 
         return $options;
-
     }
 
     /**

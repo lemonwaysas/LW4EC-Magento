@@ -32,26 +32,43 @@
      /**
      * Availability options
      */
-    protected $_isGateway              = true;
-    protected $_canAuthorize           = true;
-    protected $_canCapture             = true;
-    protected $_canCapturePartial      = false;
-    protected $_canRefund              = false;
-    protected $_canVoid                = false;
-    protected $_canUseInternal         = false;
-    protected $_canUseCheckout         = true;
+    protected $_isGateway = true;
+    protected $_canAuthorize = true;
+    protected $_canCapture = true;
+    protected $_canCapturePartial = false;
+    protected $_canRefund = false;
+    protected $_canVoid = false;
+    protected $_canUseInternal = false;
+    protected $_canUseCheckout = true;
     protected $_canUseForMultishipping = false;
-     protected $_isInitializeNeeded        = true; // when initialize we get token for webkit url
+     protected $_isInitializeNeeded = true; // when initialize we get token for webkit url
 
     protected $_order;
 
-    protected $_supportedLangs = array('no', 'jp', 'ko', 'sp', 'fr', 'xz', 'ge', 'it', 'br', 'da', 'fi', 'sw', 'po', 'fl', 'ci', 'pl','ne');
-    protected $_defaultLang    = 'en';
+    protected $_supportedLangs = array(
+        'no',
+        'jp',
+        'ko',
+        'sp',
+        'fr',
+        'xz',
+        'ge',
+        'it',
+        'br',
+        'da',
+        'fi',
+        'sw',
+        'po',
+        'fl',
+        'ci',
+        'pl',
+        'ne'
+    );
+
+    protected $_defaultLang = 'en';
     
     const IS_TEST_MODE = 'is_test_mode';
-    
-    
-    
+
     /**
      * @return Mage_Checkout_Model_Session
      */
@@ -86,7 +103,6 @@
         $registerCard = (bool)$this->getInfoInstance()->getAdditionalInformation('register_card');
         
         //Init APi kit
-        /* @var $kit Sirateck_Lemonway4ec_Model_Apikit_Kit */
         $kit = Mage::getSingleton('sirateck_lemonway4ec/apikit_kit');
         
         $amountCom = 0;
@@ -98,10 +114,9 @@
             $this->getOrder()->getCustomerEmail()
         );
         
-        //We call MoneyInwebInit and save token in session
-        //Token is used in getOrderRedirectUrl method
-        if(!$useCard)
-        {
+        // We call MoneyInwebInit and save token in session
+        // Token is used in getOrderRedirectUrl method
+        if (!$useCard) {
             //call directkit to get Webkit Token
             $params = array('wkToken' => $this->getOrder()->getIncrementId(),
                     'wallet' => $this->getHelper()->getConfig()->getWalletMerchantId(),
@@ -122,8 +137,10 @@
             
             $this->_debug($res);
     
-            if (isset($res->lwError)){
-                Mage::throwException("Error code: " . $res->lwError->getCode() . " Message: " . $res->lwError->getMessage());
+            if (isset($res->lwError)) {
+                Mage::throwException(
+                    "Error code: " . $res->lwError->getCode() . " Message: " . $res->lwError->getMessage()
+                );
             }
 
             $moneyInToken = (string)$res->lwXml->MONEYINWEB->TOKEN;
@@ -133,22 +150,19 @@
             $hasCardId = isset($res->lwXml->MONEYINWEB->CARD->ID); 
             
             //Save CardId if register card asked by user
-            if($registerCard && $hasCardId){
+            if ($registerCard && $hasCardId) {
                 $cardId = (string)$res->lwXml->MONEYINWEB->CARD->ID;
                 
                 $customer = Mage::getModel('customer/customer')->load($this->getOrder()->getCustomerId());
-                if($customer->getId())
-                {               
+                if ($customer->getId()) {               
                     $customer->setLwCardId($cardId);            
                     $customer->getResource()->saveAttribute($customer, 'lw_card_id');
                 }
             }
-        }
-        else{ //Customer want to use his last card, so we call MoneyInWithCardID directly
+        } else { //Customer want to use his last card, so we call MoneyInWithCardID directly
             
             $customer = Mage::getModel('customer/customer')->load($this->getOrder()->getCustomerId());
-            if($customer->getId())
-            {
+            if ($customer->getId()) {
                 $cardId = $customer->getLwCardId();
                 //call directkit for MoneyInWithCardId
                 $params = array(
@@ -156,7 +170,8 @@
                         'wallet'=> $this->getHelper()->getConfig()->getWalletMerchantId(),
                         'amountTot'=>sprintf("%.2f", (float)$this->getOrder()->getBaseGrandTotal()),
                         'amountCom'=>sprintf("%.2f", (float)$amountCom),
-                        'message'=>$comment . " -- "  .Mage::helper('sirateck_lemonway4ec')->__('Oneclic mode (card id: %s)', $cardId),
+                        'message'=> $comment . " - " . Mage::helper('sirateck_lemonway4ec')
+                            ->__('Oneclic mode (card id: %s)', $cardId),
                         'autoCommission'=>0,
                         'cardId'=>$cardId, 
                         'isPreAuth'=>0, 
@@ -168,14 +183,14 @@
                 $res = $kit->MoneyInWithCardId($params);
                 $this->_debug($res);
                 
-                if (isset($res->lwError)){
-                    Mage::throwException("Error code: " . $res->lwError->getCode() . " Message: " . $res->lwError->getMessage());
+                if (isset($res->lwError)) {
+                    Mage::throwException(
+                        "Error code: " . $res->lwError->getCode() . " Message: " . $res->lwError->getMessage()
+                    );
                 }
                 
-                /* @var $op Sirateck_Lemonway4ec_Model_Apikit_Apimodels_Operation */
                 foreach ($res->operations as $op) {
-                    if($op->getStatus() == "3")
-                    {
+                    if ($op->getStatus() == "3") {
                         $this->getOrder()->getPayment()->setAmountAuthorized($this->getOrder()->getTotalDue());
                         $this->getOrder()->getPayment()->setBaseAmountAuthorized($this->getOrder()->getBaseTotalDue());
                         $this->getOrder()->getPayment()->capture(null);
@@ -187,8 +202,7 @@
                         break;
                     }
                 }
-            }
-            else{
+            } else {
                 Mage::throwException(Mage::helper('sirateck_lemonway4ec')->__("Customer not found!"));
             }
         }
@@ -204,7 +218,9 @@
     {
         $instance = $this->getData('info_instance');
         if (!($instance instanceof Mage_Payment_Model_Info)) {
-            Mage::throwException(Mage::helper('payment')->__('Cannot retrieve the payment information object instance.'));
+            Mage::throwException(
+                Mage::helper('payment')->__('Cannot retrieve the payment information object instance.')
+            );
         }
 
         return $instance;
@@ -231,11 +247,14 @@
     public function getOrderPlaceRedirectUrl()
     {
         $moneyInToken = $this->_getCheckout()->getMoneyInToken();
-        if(!empty($moneyInToken)){
+        if ($moneyInToken) {
             $this->_getCheckout()->unsMoneyInToken();
     
             $cssUrl = $this->getConfigData('css_url');
-            $redirectUrl = $this->getHelper()->getConfig()->getWebkitUrl() . "?moneyintoken=".$moneyInToken.'&p='.urlencode($cssUrl).'&lang='.$this->getLang();
+            $redirectUrl = $this->getHelper()->getConfig()->getWebkitUrl()
+                . "?moneyintoken=" . $moneyInToken
+                . '&p=' . urlencode($cssUrl)
+                . '&lang=' . $this->getLang();
             Mage::log($redirectUrl, null, "debug_lw.log");
             //Redirect to webkit page
             return $redirectUrl;
@@ -243,7 +262,6 @@
         
         return false;
     }
-
 
     /**
      * Return url current lang code
@@ -253,7 +271,7 @@
     public function getLang()
     {
         $locale = explode('_', Mage::app()->getLocale()->getLocaleCode());
-        if (is_array($locale) && !empty($locale) && in_array($locale[0], $this->_supportedLangs)) {
+        if (is_array($locale) && $locale && in_array($locale[0], $this->_supportedLangs)) {
             return $locale[0];
         }
 
@@ -267,13 +285,4 @@
     {
         return Mage::helper('sirateck_lemonway4ec');
     }
-
-    /*
-     Generate random ID for wallet IDs or tokens
-     */
-    private function getRandomId()
-    {
-        return str_replace('.', '', microtime(true).rand());
-    }
-
  }

@@ -44,12 +44,6 @@ class Sirateck_Lemonway4ec_Model_Wallet extends Mage_Core_Model_Abstract
      */
     protected $_eventObject = 'wallet';
     
-    /* public static $statuesLabel = array(1 => "Document uniquement reçu",
-     2  => "Document vérifié et accepté",
-     3  => "Document vérifié mais non accepté",
-     4  => "Document remplacé par un autre document",
-     5  => "Validité du document expiré"); */
-    
     public static $statuesLabel = array(1 => "Document only received",
             2  => "Document checked and accepted",
             3  => "Document checked but not accepted",

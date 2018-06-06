@@ -21,10 +21,9 @@
  * @package     Sirateck_Lemonway4ec
  * @author Kassim Belghait kassim@sirateck.com
  */
-class Sirateck_Lemonway4ec_Adminhtml_Lemonway_MoneyoutController extends Sirateck_Lemonway4ec_Controller_Adminhtml_Lemonway
+class Sirateck_Lemonway4ec_Adminhtml_Lemonway_MoneyoutController 
+extends Sirateck_Lemonway4ec_Controller_Adminhtml_Lemonway
 {
-
-
     /**
      * view action
      *
@@ -42,7 +41,6 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_MoneyoutController extends Siratec
     
     public function payPostAction()
     {
-        
         if ($this->getRequest()->isPost()) {
             $iban = "";
             
@@ -51,8 +49,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_MoneyoutController extends Siratec
             $balFormated = Mage::helper("core")->formatPrice((float)$bal);
             $ibanId = 0;
             $ibanIds = $this->getRequest()->getPost('iban_id', array());
-            if(count($ibanIds) > 0)
-            {
+            if ($ibanIds) {
                 $ibanId = current($ibanIds);
                 $iban = $this->getRequest()->getPost('iban_' . $ibanId, "");
             }
@@ -60,15 +57,14 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_MoneyoutController extends Siratec
             $amountToPay = (float)str_replace(",", ".", $this->getRequest()->getPost('amountToPay', 0));
             $amountFormated = Mage::helper("core")->formatPrice((float)$amountToPay);
             
-            if($amountToPay > $bal)
-            {
-                $this->_getSession()->addError($this->__("You can't paid amount upper of your balance amount: %s", $balFormated));
+            if ($amountToPay > $bal) {
+                $this->_getSession()
+                    ->addError($this->__("You can't paid amount upper of your balance amount: %s", $balFormated));
                 $this->_redirect("*/*/pay");
                 return $this;
             }
             
-            if($walletId && $ibanId && $amountToPay > 0 && $bal > 0)
-            {
+            if ($walletId && $ibanId && $amountToPay > 0 && $bal > 0) {
                 try {
                     $params = array(
                             "wallet"=>$walletId,
@@ -83,18 +79,16 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_MoneyoutController extends Siratec
                     $kit = Mage::getSingleton('sirateck_lemonway4ec/apikit_kit');
                     $apiResponse = $kit->MoneyOut($params);
                     
-                    if($apiResponse->lwError)
+                    if ($apiResponse->lwError) {
                         Mage::throwException($apiResponse->lwError->getMessage());
+                    }
                     
-                    if(count($apiResponse->operations))
-                    {
+                    if ($apiResponse->operations) {
                         /* @var $op Sirateck_Lemonway4ec_Model_Apikit_Apimodels_Operation */
                         $op = $apiResponse->operations[0];
-                        if($op->getHpayId())
-                        {
+                        if ($op->getHpayId()) {
                             $this->_getSession()->addSuccess($this->__("You paid %s to your Iban %s from your wallet <b>%s</b>", $amountFormated, $iban, $walletId));
-                        }
-                        else {
+                        } else {
                             Mage::throwException($this->__("An error occurred. Please contact support."));
                         }
                     }

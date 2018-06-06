@@ -22,31 +22,30 @@
  * @author Kassim Belghait kassim@sirateck.com
  */
 $installerCustomer = new Mage_Customer_Model_Entity_Setup('sirateck_lemonway4ec_setup');
-/* @var $installerCustomer Mage_Customer_Model_Entity_Setup */
 
 $installerCustomer->startSetup();
 
 $entityId = $installerCustomer->getEntityTypeId('customer');
 $attribute = $installerCustomer->getAttribute($entityId, 'lw_card_id');
-if(!$attribute)
-{
+if (!$attribute) {
     $installerCustomer->addAttribute(
-        'customer', 'lw_card_id', array(
-        'type'         => 'varchar',
-        'label'        => 'Card ID one clic',
-        'visible'      => true,
-        'required'     => false,
-        'unique'       => false,
-        'sort_order'          => 700,
-        'default'       => 0,
-        'input'           => 'text',
-
+        'customer',
+        'lw_card_id',
+        array(
+            'type' => 'varchar',
+            'label' => 'Card ID one clic',
+            'visible' => true,
+            'required' => false,
+            'unique' => false,
+            'sort_order' => 700,
+            'default' => 0,
+            'input' => 'text',
         )
     );
-        
+    
     $usedInForms = array(
-                'adminhtml_customer',
-            );
+        'adminhtml_customer',
+    );
     
     $attribute   = Mage::getSingleton('eav/config')->getAttribute('customer', 'lw_card_id');
     $attribute->setData('used_in_forms', $usedInForms);

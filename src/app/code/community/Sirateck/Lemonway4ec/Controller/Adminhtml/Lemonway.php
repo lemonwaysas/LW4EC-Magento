@@ -58,4 +58,16 @@ class Sirateck_Lemonway4ec_Controller_Adminhtml_Lemonway extends Mage_Adminhtml_
 
         return '';
     }
+
+    /**
+     * Check if admin has permissions to visit related pages
+     *
+     * @access protected
+     * @return boolean
+     * @author Kassim Belghait kassim@sirateck.com
+     */
+    protected function _isAllowed()
+    {
+        return true;
+    }
 }

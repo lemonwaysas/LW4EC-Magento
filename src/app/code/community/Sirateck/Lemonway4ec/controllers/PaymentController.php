@@ -30,15 +30,14 @@ class Sirateck_Lemonway4ec_PaymentController extends Mage_Core_Controller_Front_
      * 
      * @var Sirateck_Lemonway4ec_Model_Apikit_Apimodels_Operation
      */
-    protected $_moneyin_trans_details = null;
+    protected $_moneyInTransDetails = null;
     
     public function preDispatch()
     {
         parent::preDispatch();
     
         $action = $this->getRequest()->getRequestedActionName();
-        if($this->getRequest()->isPost() && !$this->_validateOperation($action))
-        {
+        if ($this->getRequest()->isPost() && !$this->_validateOperation($action)) {
             $this->getResponse()->setBody("NOK. Wrong Operation!");
             $this->setFlag('', 'no-dispatch', true);
         }
@@ -46,7 +45,6 @@ class Sirateck_Lemonway4ec_PaymentController extends Mage_Core_Controller_Front_
     
     protected function _validateOperation($action)
     {
-        
         $actionToStatus = array("return"=>"3","error"=>"0","cancel"=>"0");
         if(!isset($actionToStatus[$action]))
             return false;
@@ -64,8 +62,7 @@ class Sirateck_Lemonway4ec_PaymentController extends Mage_Core_Controller_Front_
      */
     protected function getMoneyInTransDetails()
     {
-        if(is_null($this->_moneyin_trans_details))
-        {
+        if (null === ($this->_moneyInTransDetails)) {
             //call directkit to get Webkit Token
             $params = array('transactionMerchantToken'=>$this->_getOrder()->getIncrementId());
             //Init APi kit
@@ -73,14 +70,17 @@ class Sirateck_Lemonway4ec_PaymentController extends Mage_Core_Controller_Front_
             $kit = Mage::getSingleton('sirateck_lemonway4ec/apikit_kit');
             $res = $kit->GetMoneyInTransDetails($params);
             
-            if (isset($res->lwError)){
-                Mage::throwException("Error code: " . $res->lwError->getCode() . " Message: " . $res->lwError->getMessage());
+            if (isset($res->lwError)) {
+                Mage::throwException(
+                    "Error code: " . $res->lwError->getCode() .
+                    " Message: " . $res->lwError->getMessage()
+                );
             }
             
-            $this->_moneyin_trans_details = current($res->operations);
+            $this->_moneyInTransDetails = current($res->operations);
         }
 
-        return $this->_moneyin_trans_details;
+        return $this->_moneyInTransDetails;
     }
     
     /**
@@ -98,14 +98,13 @@ class Sirateck_Lemonway4ec_PaymentController extends Mage_Core_Controller_Front_
      */
     protected function _getOrder()
     {
-        if(is_null($this->_order))
-        {
-            $order = Mage::getModel('sales/order')->loadByIncrementId($this->getRequest()->getParam('response_wkToken'));
+        if (null === ($this->_order)) {
+            $order = Mage::getModel('sales/order')
+            ->loadByIncrementId($this->getRequest()->getParam('response_wkToken'));
 
-            if($order->getId())
+            if ($order->getId()) {
                 $this->_order = $order;
-            else
-            {
+            } else {
                 Mage::logException(new Exception("Order not Found"));
                 Mage::throwException("Order not found!");
             }
@@ -167,21 +166,18 @@ class Sirateck_Lemonway4ec_PaymentController extends Mage_Core_Controller_Front_
     {
         
         $params = $this->getRequest()->getParams();
-        if($this->getRequest()->isGet())
-        {
+        if ($this->getRequest()->isGet()) {
             $successUrl = 'checkout/onepage/success';
-            if(Mage::helper('sirateck_lemonway4ec')->oneStepCheckoutInstalled()){
+
+            if (Mage::helper('sirateck_lemonway4ec')->oneStepCheckoutInstalled()) {
                 $successUrl = 'onestepcheckout/index/success';
             }
 
             $this->_redirect($successUrl);
 
             return $this;
-        }
-        elseif($this->getRequest()->isPost())
-        {
-            if($params['response_code'] == "0000")
-            {
+        } elseif ($this->getRequest()->isPost()) {
+            if ($params['response_code'] == "0000") {
                 //DATA POST FROM NOTIFICATION
                 $order = $this->_getOrder();
                 $payment = $order->getPayment();
@@ -206,11 +202,8 @@ class Sirateck_Lemonway4ec_PaymentController extends Mage_Core_Controller_Front_
                 
                 $order->save();
                 
-                
-                
                 $customer = Mage::getModel('customer/customer')->load($order->getCustomerId());
-                if($customer->getId())
-                {
+                if ($customer->getId()) {
                     $customer->setLwCardType($this->getMoneyInTransDetails()->getExtra()->TYP);
                     $customer->setLwCardNum($this->getMoneyInTransDetails()->getExtra()->NUM);
                     $customer->setLwCardExp($this->getMoneyInTransDetails()->getExtra()->EXP);
@@ -218,16 +211,13 @@ class Sirateck_Lemonway4ec_PaymentController extends Mage_Core_Controller_Front_
                     $customer->getResource()->saveAttribute($customer, 'lw_card_num');
                     $customer->getResource()->saveAttribute($customer, 'lw_card_exp');
                 }
-            }
-            else{
+            } else {
                 $this->_forward('error');
             }
-        }
-        else 
-        {
-            die("HTTP Method not Allowed");
-        }
-        
+        } else {
+            //die("HTTP Method not Allowed");
+            $this->getResponse()->setBody("HTTP Method not Allowed");
+        }  
     }
     
     /**
@@ -235,19 +225,16 @@ class Sirateck_Lemonway4ec_PaymentController extends Mage_Core_Controller_Front_
      */
     public function cancelAction()
     {
-
         //When canceled by user, notification by POST not sended
         //So we cancel with get request
-        if($this->getRequest()->isGet())
-        {
+        if ($this->getRequest()->isGet()) {
             $order = $this->_getOrder();
             $status = $order->getStatus();
             
             $message = $this->__('Transaction was canceled by customer');
             $order->addStatusToHistory($status, $message);
             
-            if($order->canCancel())
-            {
+            if ($order->canCancel()) {
                 $order->cancel();
             }
 
@@ -259,10 +246,9 @@ class Sirateck_Lemonway4ec_PaymentController extends Mage_Core_Controller_Front_
             $this->_getCheckout()->addSuccess($this->__('Your order is canceled.'));
             
             $this->_redirect('checkout/cart');
-        }
-        else
-        {
-            die("HTTP Method not Allowed");
+        } else {
+            //die("HTTP Method not Allowed");
+            $this->getResponse()->setBody("HTTP Method not Allowed");
         }
         
         return $this;
@@ -274,16 +260,13 @@ class Sirateck_Lemonway4ec_PaymentController extends Mage_Core_Controller_Front_
      */
     public function errorAction()
     {
-        
         //When transaction failed, notification by POST not sended
         //So we cancel the order with GET request
-        if($this->getRequest()->isGet())
-        {
+        if ($this->getRequest()->isGet()) {
             //DATA POST FROM NOTIFICATION
             $order = $this->_getOrder();
             
-            if($order->canCancel())
-            {
+            if ($order->canCancel()) {
                 $order->cancel();
             }
             
@@ -300,13 +283,10 @@ class Sirateck_Lemonway4ec_PaymentController extends Mage_Core_Controller_Front_
             
             $this->_redirect('checkout/onepage/failure');
             return $this;
-        }
-        else
-        {
-            die("HTTP Method not Allowed");
+        } else {
+            //die("HTTP Method not Allowed");
+            $this->getResponse()->setBody("HTTP Method not Allowed");
         }
         
     }
-    
-    
 }

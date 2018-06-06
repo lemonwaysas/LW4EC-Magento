@@ -13,7 +13,7 @@
 	"scripts": {
         "package":[
             "tar cf dist/package.tar -C src .",
-	        "vendor/pulsestorm/magento-tar-to-connect/magento-tar-to-connect.phar config.php"        
+	        "vendor/pulsestorm/magento-tar-to-connect/magento-tar-to-connect.phar config.php"
         ]
     }
 }

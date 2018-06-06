@@ -73,6 +73,7 @@ class Sirateck_Lemonway4ec_Model_Moneyout extends Mage_Core_Model_Abstract
         }
 
         $this->setUpdatedAt($now);
+        
         return $this;
     }
 
@@ -87,5 +88,4 @@ class Sirateck_Lemonway4ec_Model_Moneyout extends Mage_Core_Model_Abstract
     {
         return parent::_afterSave();
     }
-    
 }

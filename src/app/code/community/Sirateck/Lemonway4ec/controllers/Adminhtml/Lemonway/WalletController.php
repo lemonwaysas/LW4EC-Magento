@@ -21,7 +21,8 @@
  * @package     Sirateck_Lemonway4ec
  * @author Kassim Belghait kassim@sirateck.com
  */
-class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_Lemonway4ec_Controller_Adminhtml_Lemonway
+class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController 
+extends Sirateck_Lemonway4ec_Controller_Adminhtml_Lemonway
 {
     /**
      * init the wallet
@@ -88,7 +89,7 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
         }
 
         $data = Mage::getSingleton('adminhtml/session')->getWalletData(true);
-        if (!empty($data)) {
+        if ($data) {
             $wallet->setData($data);
         }
 
@@ -227,8 +228,10 @@ class Sirateck_Lemonway4ec_Adminhtml_Lemonway_WalletController extends Sirateck_
                     $wallet->setId($walletId)->delete();
                 }
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('sirateck_lemonway4ec')->__('Total of %d wallets were successfully deleted.', count($walletIds))
+                Mage::getSingleton('adminhtml/session')
+                ->addSuccess(
+                    Mage::helper('sirateck_lemonway4ec')
+                    ->__('Total of %d wallets were successfully deleted.', count($walletIds))
                 );
             } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());

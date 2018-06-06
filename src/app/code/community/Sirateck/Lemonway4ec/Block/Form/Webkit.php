@@ -59,11 +59,12 @@ class Sirateck_Lemonway4ec_Block_Form_Webkit extends Mage_Payment_Block_Form
     {
         $checkoutMethod = Mage::getSingleton('checkout/session')->getQuote()->getCheckoutMethod();
         
-        if($checkoutMethod == Mage_Checkout_Model_Type_Onepage::METHOD_GUEST || !$this->getMethod()->getConfigData('allow_oneclic'))
+        if ($checkoutMethod == Mage_Checkout_Model_Type_Onepage::METHOD_GUEST ||
+            !$this->getMethod()->getConfigData('allow_oneclic')) {
             return false;
+        }
         
         return true;
-
     }
     
     public function customerHasCardId()
@@ -95,7 +96,4 @@ class Sirateck_Lemonway4ec_Block_Form_Webkit extends Mage_Payment_Block_Form
     {
         return $this->getCustomer()->getLwCardExp();
     }
-    
-    
-
 }

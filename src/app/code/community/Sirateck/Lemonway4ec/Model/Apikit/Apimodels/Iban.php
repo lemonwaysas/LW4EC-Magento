@@ -7,21 +7,27 @@
  */
 class Sirateck_Lemonway4ec_Model_Apikit_Apimodels_Iban extends Varien_Object
 {
-    
-    function __construct($nodeArr=array()) 
+    public function __construct($nodeArr=array()) 
     {
-        if(count($nodeArr))
-        {        
+        if ($nodeArr) {        
             $node = $nodeArr[0];
             $this->_data['iban_id'] = $node->ID;
-            if (isset($node->STATUS))
+
+            if (isset($node->STATUS)) {
                 $this->_data['status'] = $node->STATUS;
-            if (isset($node->S))
+            }
+
+            if (isset($node->S)) {
                 $this->_data['status'] = $node->S;
-            if (isset($node->DATA))
+            }
+
+            if (isset($node->DATA)) {
                 $this->_data['iban'] = $node->DATA;
-            if (isset($node->SWIFT))
+            }
+
+            if (isset($node->SWIFT)) {
                 $this->_data['swift'] = $node->SWIFT;
+            }
         }
     }
     

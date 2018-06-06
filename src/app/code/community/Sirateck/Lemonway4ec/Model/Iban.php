@@ -103,5 +103,4 @@ class Sirateck_Lemonway4ec_Model_Iban extends Mage_Core_Model_Abstract
 
         return $values;
     }
-    
 }
