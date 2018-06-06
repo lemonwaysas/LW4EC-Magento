@@ -168,14 +168,30 @@ class Lemonway_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
         if ($this->getRequest()->isGet()) {
             $successUrl = 'checkout/onepage/success';
             $order = $this->_getOrder();
-            $this->doublecheckAmount($order->getBaseGrandTotal());
+            //Mage::log(print_r($order, true), null, 'orderLog.log');
+            $verifcationAmount=$this->doublecheckAmount($order->getBaseGrandTotal());
+            if($verifcationAmount){
+                if (Mage::helper('Lemonway_lemonway')->oneStepCheckoutInstalled()) {
+                    $successUrl = 'onestepcheckout/index/success';
+                }
+                $this->_redirect($successUrl);
+                $methodInstance = Mage::getSingleton('Lemonway_lemonway/method_webkit');
+                if (!$status = $methodInstance->getConfigData('order_status_success')) {
+                    $status = $order->getStatus();
+                }
+                $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, $status);
+                $order->save();
+                return $this;
+            }else{
+                if ($order->canCancel()) {
+                    $order->cancel();
+                }
 
-            if (Mage::helper('Lemonway_lemonway')->oneStepCheckoutInstalled()) {
-                $successUrl = 'onestepcheckout/index/success';
+                $status = $order->getStatus();
+                $message = $this->__('Transaction Failed. Order was canceled automatically.');
+                $order->addStatusToHistory($status, $message);
+
             }
-            $this->_redirect($successUrl);
-
-            return $this;
 
         } elseif ($this->getRequest()->isPost()) {
             if ($params['response_code'] == "0000") {
