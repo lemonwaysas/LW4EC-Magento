@@ -171,6 +171,7 @@ class Lemonway_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
             return false;
         } else if ($totalpaid != $details->TRANS->HPAY[0]->COM + $details->TRANS->HPAY[0]->CRED) {
             $totalpaid = ($details->TRANS->HPAY[0]->COM + $details->TRANS->HPAY[0]->CRED) - 5;
+            
             return $totalpaid;
         }
     }
