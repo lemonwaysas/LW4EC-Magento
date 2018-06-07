@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento_Lemonway_Ecommerce extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category       Lemonway
+ * @package        Magento_Lemonway_Ecommerce
+ * @copyright      Copyright (c) 2015
+ * @license        http://opensource.org/licenses/mit-license.php MIT License
+ */
+-->
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <Lemonway_lemonway translate="title" module="Lemonway_lemonway">
+                                        <title>Lemonway</title>
+                                    </Lemonway_lemonway>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                    <sales>
+                        <children>
+                            <Lemonway_lemonway translate="title" module="Lemonway_lemonway">
+                                <title>LW</title>
+                            </Lemonway_lemonway>
+                        </children>
+                    </sales>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+      <menu>
+        <sales>
+            <children>
+
+             </children>
+        </sales>
+    </menu>
+</config>
