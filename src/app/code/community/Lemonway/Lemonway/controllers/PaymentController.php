@@ -35,6 +35,7 @@ class Lemonway_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
     public function preDispatch()
     {
         parent::preDispatch();
+        Mage::log('request :' . print_r($this->getRequest(), true), null, 'action.log');
 
         $action = $this->getRequest()->getRequestedActionName();
         if ($this->getRequest()->isPost() && !$this->_validateOperation($action)) {
@@ -45,12 +46,16 @@ class Lemonway_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
 
     protected function _validateOperation($action)
     {
+        Mage::log("bonjour", null, 'action.log');
+
+        Mage::log(print_r($action, true), null, 'action.log');
 
         $actionToStatus = array("return" => "3", "error" => "0", "cancel" => "0");
         if (!isset($actionToStatus[$action]))
             return false;
+        Mage::log('status =' . print_r($this->getMoneyInTransDetails()->TRANS->HPAY[0]->STATUS, true), null, 'action.log');
 
-        if ($this->getMoneyInTransDetails()->getStatus() == $actionToStatus[$action])
+        if ($this->getMoneyInTransDetails()->TRANS->HPAY[0]->STATUS == $actionToStatus[$action])
             return true;
         return false;
     }
@@ -158,6 +163,18 @@ class Lemonway_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
         return (($details->TRANS->HPAY[0]->STATUS == '3') && ($amount == $realAmountDoublecheck));
     }
 
+    private function checkTransaction($totalpaid)
+    {
+        $details = $this->getMoneyInTransDetails();
+
+        if ($details->TRANS->HPAY[0]->STATUS != '3') {
+            return false;
+        } else if ($totalpaid != $details->TRANS->HPAY[0]->COM + $details->TRANS->HPAY[0]->CRED) {
+            $totalpaid = ($details->TRANS->HPAY[0]->COM + $details->TRANS->HPAY[0]->CRED) - 5;
+            return $totalpaid;
+        }
+    }
+
     /**
      * Success Action
      * Used for redirection and notification process
@@ -169,8 +186,11 @@ class Lemonway_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
             $successUrl = 'checkout/onepage/success';
             $order = $this->_getOrder();
             //Mage::log(print_r($order, true), null, 'orderLog.log');
-            $verifcationAmount=$this->doublecheckAmount($order->getBaseGrandTotal());
-            if($verifcationAmount){
+            $verifcationAmount = $this->doublecheckAmount($order->getBaseGrandTotal());
+            $checkTrans = $this->checkTransaction($order->getTotalPaid());
+            Mage::log(print_r($checkTrans, true), null, 'check.log');
+
+            if ($verifcationAmount && $checkTrans) {
                 if (Mage::helper('Lemonway_lemonway')->oneStepCheckoutInstalled()) {
                     $successUrl = 'onestepcheckout/index/success';
                 }
@@ -182,11 +202,10 @@ class Lemonway_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
                 $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, $status);
                 $order->save();
                 return $this;
-            }else{
+            } else {
                 if ($order->canCancel()) {
                     $order->cancel();
                 }
-
                 $status = $order->getStatus();
                 $message = $this->__('Transaction Failed. Order was canceled automatically.');
                 $order->addStatusToHistory($status, $message);
@@ -194,45 +213,64 @@ class Lemonway_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
             }
 
         } elseif ($this->getRequest()->isPost()) {
+            Mage::log(print_r($this->getRequest()->getPost(), true), null, 'post.log');
+
             if ($params['response_code'] == "0000") {
                 //DATA POST FROM NOTIFICATION
+                $successUrl = 'checkout/onepage/success';
                 $order = $this->_getOrder();
-                $payment = $order->getPayment();
-                $payment->registerCaptureNotification(
-                    $params['response_transactionAmount'],
-                    false
-                );
-                $order->save();
+                Mage::log(print_r($order, true), null, 'orderLog.log');
+                $verifcationAmount = $this->doublecheckAmount($order->getBaseGrandTotal());
+                $checkTrans = $this->checkTransaction($order->getTotalPaid());
+                Mage::log(print_r($checkTrans, true), null, 'check.log');
 
-                // notify customer
-                $invoice = $payment->getCreatedInvoice();
-                if ($invoice && !$order->getEmailSent()) {
-                    $order->sendNewOrderEmail();
-                }
+                if ($verifcationAmount && $checkTrans) {
+                    if (Mage::helper('Lemonway_lemonway')->oneStepCheckoutInstalled()) {
+                        $successUrl = 'onestepcheckout/index/success';
+                    }
+                    $this->_redirect($successUrl);
+                    $payment = $order->getPayment();
+                    $payment->registerCaptureNotification(
+                        $params['response_transactionAmount'],
+                        false
+                    );
+                    Mage::log(print_r($order, true), null, 'paid.log');
 
-                $methodInstance = Mage::getSingleton('Lemonway_lemonway/method_webkit');
-                if (!$status = $methodInstance->getConfigData('order_status_success')) {
+                    $order->save();
+                    // notify customer
+                    $invoice = $payment->getCreatedInvoice();
+                    if ($invoice && !$order->getEmailSent()) {
+                        $order->sendNewOrderEmail();
+                    }
+                    $methodInstance = Mage::getSingleton('Lemonway_lemonway/method_webkit');
+                    if (!$status = $methodInstance->getConfigData('order_status_success')) {
+                        $status = $order->getStatus();
+                    }
+                    $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, $status);
+                    $order->save();
+
+                    $customer = Mage::getModel('customer/customer')->load($order->getCustomerId());
+                    if ($customer->getId()) {
+                        $customer->setLwCardType($this->getMoneyInTransDetails()->TRANS->HPAY[0]->EXTRA->TYP);
+                        $customer->setLwCardNum($this->getMoneyInTransDetails()->TRANS->HPAY[0]->EXTRA->NUM);
+                        $customer->setLwCardExp($this->getMoneyInTransDetails()->TRANS->HPAY[0]->EXTRA->EXP);
+                        $customer->getResource()->saveAttribute($customer, 'lw_card_type');
+                        $customer->getResource()->saveAttribute($customer, 'lw_card_num');
+                        $customer->getResource()->saveAttribute($customer, 'lw_card_exp');
+                    }
+
+                    return $this;
+                } else {
+                    if ($order->canCancel()) {
+                        $order->cancel();
+                    }
                     $status = $order->getStatus();
+                    $message = $this->__('Transaction Failed. Order was canceled automatically.');
+                    $order->addStatusToHistory($status, $message);
+
                 }
 
-                $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, $status);
-
-                $order->save();
-
-
-                $customer = Mage::getModel('customer/customer')->load($order->getCustomerId());
-                if ($customer->getId()) {
-                    $customer->setLwCardType($this->getMoneyInTransDetails()->getExtra()->TYP);
-                    $customer->setLwCardNum($this->getMoneyInTransDetails()->getExtra()->NUM);
-                    $customer->setLwCardExp($this->getMoneyInTransDetails()->getExtra()->EXP);
-                    $customer->getResource()->saveAttribute($customer, 'lw_card_type');
-                    $customer->getResource()->saveAttribute($customer, 'lw_card_num');
-                    $customer->getResource()->saveAttribute($customer, 'lw_card_exp');
-                }
-            } else {
-                $this->_forward('error');
             }
-
         } else {
             die("HTTP Method not Allowed");
         }

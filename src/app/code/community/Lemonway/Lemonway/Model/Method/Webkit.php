@@ -118,6 +118,8 @@ class Lemonway_Lemonway_Model_Method_Webkit extends Mage_Payment_Model_Method_Ab
                 'registerCard' => (int)$registerCard, //For Atos
                 'useRegisteredCard' => (int)($registerCard || $useCard) //For payline
             );
+
+
             $this->_debug($params);
             $res = $kit->MoneyInWebInit($params);
 
