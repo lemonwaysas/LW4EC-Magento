@@ -171,7 +171,7 @@ class Lemonway_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
             return false;
         } else if ($totalpaid != $details->TRANS->HPAY[0]->COM + $details->TRANS->HPAY[0]->CRED) {
             $totalpaid = ($details->TRANS->HPAY[0]->COM + $details->TRANS->HPAY[0]->CRED) - 5;
-            
+
             return $totalpaid;
         }
     }
@@ -189,7 +189,7 @@ class Lemonway_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
             //Mage::log(print_r($order, true), null, 'orderLog.log');
             $verifcationAmount = $this->doublecheckAmount($order->getBaseGrandTotal());
             $checkTrans = $this->checkTransaction($order->getTotalPaid());
-            Mage::log(print_r($checkTrans, true), null, 'check.log');
+//            Mage::log(print_r($checkTrans, true), null, 'check.log');
 
             if ($verifcationAmount && $checkTrans) {
                 if (Mage::helper('Lemonway_lemonway')->oneStepCheckoutInstalled()) {
@@ -214,18 +214,19 @@ class Lemonway_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
             }
 
         } elseif ($this->getRequest()->isPost()) {
-            Mage::log(print_r($this->getRequest()->getPost(), true), null, 'post.log');
+//            Mage::log(print_r($this->getRequest()->getPost(), true), null, 'post.log');
 
             if ($params['response_code'] == "0000") {
                 //DATA POST FROM NOTIFICATION
                 $successUrl = 'checkout/onepage/success';
                 $order = $this->_getOrder();
-                Mage::log(print_r($order, true), null, 'orderLog.log');
+//                Mage::log(print_r($order, true), null, 'orderLog.log');
                 $verifcationAmount = $this->doublecheckAmount($order->getBaseGrandTotal());
                 $checkTrans = $this->checkTransaction($order->getTotalPaid());
-                Mage::log(print_r($checkTrans, true), null, 'check.log');
+//                Mage::log(print_r($checkTrans, true), null, 'check.log');
 
                 if ($verifcationAmount && $checkTrans) {
+
                     if (Mage::helper('Lemonway_lemonway')->oneStepCheckoutInstalled()) {
                         $successUrl = 'onestepcheckout/index/success';
                     }
@@ -235,9 +236,8 @@ class Lemonway_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
                         $params['response_transactionAmount'],
                         false
                     );
-                    Mage::log(print_r($order, true), null, 'paid.log');
+//                    Mage::log(print_r($order, true), null, 'paid.log');
 
-                    $order->save();
                     // notify customer
                     $invoice = $payment->getCreatedInvoice();
                     if ($invoice && !$order->getEmailSent()) {
@@ -262,6 +262,8 @@ class Lemonway_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
 
                     return $this;
                 } else {
+                    Mage::log("test", null, 'test.log');
+
                     if ($order->canCancel()) {
                         $order->cancel();
                     }
@@ -269,6 +271,25 @@ class Lemonway_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
                     $message = $this->__('Transaction Failed. Order was canceled automatically.');
                     $order->addStatusToHistory($status, $message);
 
+                }
+            } else {
+                Mage::log("testvijay", null, 'test.log');
+                $order = $this->_getOrder();
+                Mage::log(print_r($order,true), null, 'order.log');
+
+                if ($order->canCancel()) {
+                    Mage::log("test2333333", null, 'test.log');
+                    $order->cancel();
+                }
+                $status = $order->getStatus();
+                $message = $this->__('Transaction Failed. Order was canceled automatically.');
+                $order->addStatusToHistory($status, $message);
+
+                try {
+                    $order->save();
+                } catch (Exception $e) {
+                    Mage::logException($e);
+                    Mage::throwException($e->getMessage());
                 }
 
             }
