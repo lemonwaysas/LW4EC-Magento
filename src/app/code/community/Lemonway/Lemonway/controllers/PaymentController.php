@@ -60,9 +60,8 @@ class Lemonway_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
     {
         if (is_null($this->_moneyin_trans_details)) {
             //call directkit to get Webkit Token
+            //la date transformer en timestamp
             $time=strtotime($this->_getOrder()->getCreatedAt());
-           // Mage::log(print_r($time),null,'time.log');
-
             $params = array('transactionMerchantToken' =>$time."_". $this->_getOrder()->getIncrementId());
             //Init APi kit
             /* @var $kit Lemonway_Lemonway_Model_Apikit_Kit */
@@ -93,9 +92,9 @@ class Lemonway_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
     protected function _getOrder()
     {
         if (is_null($this->_order)) {
+            //The strpos() finds the offset of the underscore, then substr grabs everything from that index plus 1, onwards.
             $data = $this->getRequest()->getParam('response_wkToken');
             $responseToken=substr($data, strpos($data, "_") + 1);
-
             $order = Mage::getModel('sales/order')->loadByIncrementId($responseToken);
 
             if ($order->getId())
