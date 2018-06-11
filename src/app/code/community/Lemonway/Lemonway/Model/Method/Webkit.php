@@ -93,8 +93,9 @@ class Lemonway_Lemonway_Model_Method_Webkit extends Mage_Payment_Model_Method_Ab
 
 
         $amountCom = 0;
+        $time=strtotime($this->getOrder()->getCreatedAt());
 
-        $comment = Mage::helper('Lemonway_lemonway')->__("Order #%s by %s %s %s", $this->getOrder()->getIncrementId(),
+        $comment = Mage::helper('Lemonway_lemonway')->__("Order #%s by %s %s %s", $time."_".$this->getOrder()->getIncrementId(),
             $this->getOrder()->getCustomerLastname(),
             $this->getOrder()->getCustomerFirstname(),
             $this->getOrder()->getCustomerEmail());
@@ -106,7 +107,8 @@ class Lemonway_Lemonway_Model_Method_Webkit extends Mage_Payment_Model_Method_Ab
             //call directkit to get Webkit Token
             //$wallet = $kit->GetWalletDetails(array('email'=>$this->getHelper()->getConfig()->getApiLogin()));
             //Mage::log(print_r($wallet->WALLET->ID,true),null,'test.log');
-            $params = array('wkToken' => $this->getOrder()->getIncrementId(),
+            //$time=strtotime($this->getOrder()->getCreatedAt());
+            $params = array('wkToken' => $time."_".$this->getOrder()->getIncrementId(),
                 'wallet' => $this->getHelper()->getConfig()->getWalletMerchantId(),
                 'amountTot' => sprintf("%.2f", (float)$this->getOrder()->getBaseGrandTotal()),
                 'amountCom' => sprintf("%.2f", (float)$amountCom),
@@ -118,6 +120,7 @@ class Lemonway_Lemonway_Model_Method_Webkit extends Mage_Payment_Model_Method_Ab
                 'registerCard' => (int)$registerCard, //For Atos
                 'useRegisteredCard' => (int)($registerCard || $useCard) //For payline
             );
+            Mage::log(print_r($params,true),null,'params.log');
 
 
             $this->_debug($params);
@@ -151,7 +154,7 @@ class Lemonway_Lemonway_Model_Method_Webkit extends Mage_Payment_Model_Method_Ab
                 $cardId = $customer->getLwCardId();
                 //call directkit for MoneyInWithCardId
                 $params = array(
-                    'wkToken' => $this->getOrder()->getIncrementId(),
+                    'wkToken' => $time."_".$this->getOrder()->getIncrementId(),
                     'wallet' => $this->getHelper()->getConfig()->getWalletMerchantId(),
                     'amountTot' => sprintf("%.2f", (float)$this->getOrder()->getBaseGrandTotal()),
                     'amountCom' => sprintf("%.2f", (float)$amountCom),
