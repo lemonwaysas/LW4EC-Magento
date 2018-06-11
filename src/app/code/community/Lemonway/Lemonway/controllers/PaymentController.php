@@ -61,8 +61,8 @@ class Lemonway_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
         if (is_null($this->_moneyin_trans_details)) {
             //call directkit to get Webkit Token
             //la date transformer en timestamp
-            $time = strtotime($this->_getOrder()->getCreatedAt());
-            $params = array('transactionMerchantToken' => $time . "_" . $this->_getOrder()->getIncrementId());
+            $time=strtotime($this->_getOrder()->getCreatedAt());
+            $params = array('transactionMerchantToken' =>$time."_". $this->_getOrder()->getIncrementId());
             //Init APi kit
             /* @var $kit Lemonway_Lemonway_Model_Apikit_Kit */
             $kit = Mage::getSingleton('Lemonway_lemonway/apikit_kit');
@@ -95,10 +95,7 @@ class Lemonway_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
 
             //The strpos() finds the offset of the underscore, then substr grabs everything from that index plus 1, onwards.
             $data = $this->getRequest()->getParam('response_wkToken');
-            //Check if the underscore character (_) exists in your string before trying to get it
-            if (($pos = strpos($data, "_")) !== FALSE) {
-                $responseToken = substr($data, $pos + 1);
-            }
+            $responseToken=substr($data, strpos($data, "_") + 1);
             $order = Mage::getModel('sales/order')->loadByIncrementId($responseToken);
 
             if ($order->getId())
