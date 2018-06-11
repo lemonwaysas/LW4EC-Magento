@@ -82,20 +82,14 @@ class Lemonway_Lemonway_Model_Method_Webkit extends Mage_Payment_Model_Method_Ab
         //Init APi kit
         /* @var $kit Lemonway_Lemonway_Model_Apikit_Kit */
         $kit = Mage::getSingleton('Lemonway_lemonway/apikit_kit');
-
-//        $apiLogin = Mage::getStoreConfig('Lemonway_lemonway/lemonway_api/api_login', Mage::app()->getStore());
-//        //Mage::log($apiLogin, null, 'ApiLogin.log');
-//        $wallet = $kit->GetWalletDetails(array("email" => $apiLogin));
-//        Mage::log(print_r($wallet, true), null, 'ApiLogin.log');
-
         $useCard = (bool)$this->getInfoInstance()->getAdditionalInformation('use_card');
         $registerCard = (bool)$this->getInfoInstance()->getAdditionalInformation('register_card');
 
 
         $amountCom = 0;
-        $time=strtotime($this->getOrder()->getCreatedAt());
+        $time = strtotime($this->getOrder()->getCreatedAt());
 
-        $comment = Mage::helper('Lemonway_lemonway')->__("Order #%s by %s %s %s", $time."_".$this->getOrder()->getIncrementId(),
+        $comment = Mage::helper('Lemonway_lemonway')->__("Order #%s by %s %s %s", $time . "_" . $this->getOrder()->getIncrementId(),
             $this->getOrder()->getCustomerLastname(),
             $this->getOrder()->getCustomerFirstname(),
             $this->getOrder()->getCustomerEmail());
@@ -103,12 +97,7 @@ class Lemonway_Lemonway_Model_Method_Webkit extends Mage_Payment_Model_Method_Ab
         //We call MoneyInwebInit and save token in session
         //Token is used in getOrderRedirectUrl method
         if (!$useCard) {
-            // Mage::log($this->getHelper()->getConfig()->getWalletMerchantId(),null,"debug_lw.log");
-            //call directkit to get Webkit Token
-            //$wallet = $kit->GetWalletDetails(array('email'=>$this->getHelper()->getConfig()->getApiLogin()));
-            //Mage::log(print_r($wallet->WALLET->ID,true),null,'test.log');
-            //$time=strtotime($this->getOrder()->getCreatedAt());
-            $params = array('wkToken' => $time."_".$this->getOrder()->getIncrementId(),
+            $params = array('wkToken' => $time . "_" . $this->getOrder()->getIncrementId(),
                 'wallet' => $this->getHelper()->getConfig()->getWalletMerchantId(),
                 'amountTot' => sprintf("%.2f", (float)$this->getOrder()->getBaseGrandTotal()),
                 'amountCom' => sprintf("%.2f", (float)$amountCom),
@@ -120,13 +109,11 @@ class Lemonway_Lemonway_Model_Method_Webkit extends Mage_Payment_Model_Method_Ab
                 'registerCard' => (int)$registerCard, //For Atos
                 'useRegisteredCard' => (int)($registerCard || $useCard) //For payline
             );
-            Mage::log(print_r($params,true),null,'params.log');
+            Mage::log(print_r($params, true), null, 'params.log');
 
 
             $this->_debug($params);
             $res = $kit->MoneyInWebInit($params);
-
-            //$this->_debug($res);
 
             if (isset($res->lwError)) {
                 Mage::throwException("Error code: " . $res->lwError->getCode() . " Message: " . $res->lwError->getMessage());
@@ -154,7 +141,7 @@ class Lemonway_Lemonway_Model_Method_Webkit extends Mage_Payment_Model_Method_Ab
                 $cardId = $customer->getLwCardId();
                 //call directkit for MoneyInWithCardId
                 $params = array(
-                    'wkToken' => $time."_".$this->getOrder()->getIncrementId(),
+                    'wkToken' => $time . "_" . $this->getOrder()->getIncrementId(),
                     'wallet' => $this->getHelper()->getConfig()->getWalletMerchantId(),
                     'amountTot' => sprintf("%.2f", (float)$this->getOrder()->getBaseGrandTotal()),
                     'amountCom' => sprintf("%.2f", (float)$amountCom),
