@@ -60,10 +60,14 @@ class Lemonway_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
     {
         if (is_null($this->_moneyin_trans_details)) {
             //call directkit to get Webkit Token
-            $params = array('transactionMerchantToken' => $this->_getOrder()->getIncrementId());
+            $time=strtotime($this->_getOrder()->getCreatedAt());
+           // Mage::log(print_r($time),null,'time.log');
+
+            $params = array('transactionMerchantToken' =>$time."_". $this->_getOrder()->getIncrementId());
             //Init APi kit
             /* @var $kit Lemonway_Lemonway_Model_Apikit_Kit */
             $kit = Mage::getSingleton('Lemonway_lemonway/apikit_kit');
+            //Mage::log(print_r($params),null,'trans.log');
             $res = $kit->GetMoneyInTransDetails($params);
             if (isset($res->lwError)) {
                 Mage::throwException("Error code: " . $res->lwError->getCode() . " Message: " . $res->lwError->getMessage());
@@ -89,7 +93,10 @@ class Lemonway_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
     protected function _getOrder()
     {
         if (is_null($this->_order)) {
-            $order = Mage::getModel('sales/order')->loadByIncrementId($this->getRequest()->getParam('response_wkToken'));
+            $data = $this->getRequest()->getParam('response_wkToken');
+            $responseToken=substr($data, strpos($data, "_") + 1);
+
+            $order = Mage::getModel('sales/order')->loadByIncrementId($responseToken);
 
             if ($order->getId())
                 $this->_order = $order;
@@ -155,6 +162,8 @@ class Lemonway_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
         }
         $params = $this->getRequest()->getParams();
         $order = $this->_getOrder();
+        Mage::log(print_r($order, true), null, 'data.log');
+
         $successUrl = 'checkout/onepage/success';
 
         if ($this->getRequest()->isGet()) {
