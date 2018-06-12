@@ -40,8 +40,8 @@ class Lemonway_Lemonway_Model_Adminhtml_Backend_Wallet extends Mage_Core_Model_C
     {
         try {
             $apiLogin = $this->getValue();
-            $technical_wallet = Mage::getStoreConfig('Lemonway_lemonway/lemonway_config/technical_wallet_name');
-            $environment_name = Mage::getStoreConfig('Lemonway_lemonway/lemonway_config/custom_environment_name');
+            $technical_wallet = Mage::app()->getRequest()->getPost('groups')["lemonway_config"]["fields"]["technical_wallet_name"]["value"];
+            $environment_name = Mage::app()->getRequest()->getPost('groups')["lemonway_config"]["fields"]["custom_environment_name"]["value"];
             $password = Mage::app()->getRequest()->getPost('groups')["lemonway_api"]["fields"]["api_pass"]["value"];
 
             Mage::log(print_r("Login: " . $apiLogin, true), null, 'AdminLog.log');
@@ -61,7 +61,7 @@ class Lemonway_Lemonway_Model_Adminhtml_Backend_Wallet extends Mage_Core_Model_C
             }
             $params['wlLogin'] = $apiLogin;
 
-            Mage::log(print_r("MDP: " . Mage::getStoreConfig('Lemonway_lemonway/lemonway_api/api_pass'), true), null, 'AdminLog.log');
+            Mage::log(print_r("MDP: " . Mage::app()->getRequest()->getPost('groups')["lemonway_api"]["fields"]["api_pass"]["value"], true), null, 'AdminLog.log');
             Mage::log(print_r($params, true), null, 'Params.log');
             $wallet = Mage::getSingleton('Lemonway_lemonway/apikit_kit')->GetWalletDetails($params);
             Mage::log(print_r($wallet, true), null, 'AdminLog.log');
