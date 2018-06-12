@@ -161,7 +161,11 @@ class Lemonway_Lemonway_Model_Config extends Varien_Object
 
     public function verifEnvrionment()
     {
-        $environment_name = Mage::getStoreConfig('Lemonway_lemonway/lemonway_config/custom_environment_name');
+        if (null !== (Mage::app()->getRequest()->getPost('groups')["lemonway_config"]["fields"]["custom_environment_name"]["value"])) {
+            $environment_name = Mage::app()->getRequest()->getPost('groups')["lemonway_config"]["fields"]["custom_environment_name"]["value"];
+        } else {
+            $environment_name = Mage::getStoreConfig('Lemonway_lemonway/lemonway_config/custom_environment_name');
+        }
 
         if (empty($environment_name)) {
             // If no custom environment => lwecommerce
@@ -169,6 +173,7 @@ class Lemonway_Lemonway_Model_Config extends Varien_Object
         } else {
             // If custom environment
             $env_name = $environment_name;
+
         }
         return $env_name;
     }
