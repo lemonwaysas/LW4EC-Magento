@@ -44,11 +44,6 @@ class Lemonway_Lemonway_Model_Adminhtml_Backend_Wallet extends Mage_Core_Model_C
             $environment_name = Mage::app()->getRequest()->getPost('groups')["lemonway_config"]["fields"]["custom_environment_name"]["value"];
             $password = Mage::app()->getRequest()->getPost('groups')["lemonway_api"]["fields"]["api_pass"]["value"];
 
-            Mage::log(print_r("Login: " . $apiLogin, true), null, 'AdminLog.log');
-            Mage::log(print_r("MDP: " . $password, true), null, 'AdminLog.log');
-            Mage::log(print_r("Tech Wallet: " . $technical_wallet, true), null, 'AdminLog.log');
-            Mage::log(print_r("Env: " . $environment_name, true), null, 'AdminLog.log');
-
             if (empty($environment_name)) {
                 // If lwecommerce, get wallet by email
                 $params = array('email' => $apiLogin);
@@ -61,10 +56,8 @@ class Lemonway_Lemonway_Model_Adminhtml_Backend_Wallet extends Mage_Core_Model_C
             }
             $params['wlLogin'] = $apiLogin;
 
-            Mage::log(print_r("MDP: " . Mage::app()->getRequest()->getPost('groups')["lemonway_api"]["fields"]["api_pass"]["value"], true), null, 'AdminLog.log');
-            Mage::log(print_r($params, true), null, 'Params.log');
             $wallet = Mage::getSingleton('Lemonway_lemonway/apikit_kit')->GetWalletDetails($params);
-            Mage::log(print_r($wallet, true), null, 'AdminLog.log');
+
             Mage::getConfig()->saveConfig('Lemonway_lemonway/lemonway_api/wallet_merchant_id', $wallet->WALLET->ID, 'default', 0);
         } catch (Exception $e) {
             $session = Mage::getSingleton('adminhtml/session');
