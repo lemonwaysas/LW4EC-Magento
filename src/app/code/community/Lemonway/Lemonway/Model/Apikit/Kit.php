@@ -184,7 +184,7 @@ class Lemonway_Lemonway_Model_Apikit_Kit
             $ua = $_SERVER['HTTP_USER_AGENT'];
 
         $url = $this->getConfig()->getDirectkitUrl() . '/' . $methodName;
-        Mage::log($url, null, 'logfile.log');
+        Mage::log($url, null, 'lemonwayAPI.log');
 
         $baseParams = array(
             'wlLogin' => $this->getConfig()->getApiLogin(),
@@ -198,7 +198,7 @@ class Lemonway_Lemonway_Model_Apikit_Kit
         $requestParams = array_merge($baseParams, $params);
         $requestParams = array('p' => $requestParams);
 
-        Mage::log("Request: " . json_encode($requestParams), null, 'logfile.log');
+        Mage::log("Request: " . json_encode($requestParams), null, 'lemonwayAPI.log');
 
         $headers = array(
             "Content-type: application/json; charset=utf-8",
@@ -220,13 +220,13 @@ class Lemonway_Lemonway_Model_Apikit_Kit
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
         $response = curl_exec($ch);
-        Mage::log("Response: " . $response, null, 'logfile.log');
+        Mage::log("Response: " . $response, null, 'lemonwayAPI.log');
 
         if (curl_errno($ch)) {
             Mage::throwException(curl_error($ch));
         } else {
             $responseCode = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            Mage::log($responseCode, null, 'logfile.log');
+            Mage::log($responseCode, null, 'lemonwayAPI.log');
 
             switch ($responseCode) {
                 case 200:
