@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
     <name>Lemonway_Lemonway4ec</name>
-    <version>1.1.4</version>
+    <version>1.2.0</version>
     <stability>stable</stability>
     <license>http://opensource.org/licenses/mit-license.php MIT licence</license>
     <channel>community</channel>
