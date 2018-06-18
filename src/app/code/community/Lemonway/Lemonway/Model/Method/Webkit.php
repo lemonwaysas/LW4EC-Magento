@@ -109,8 +109,6 @@ class Lemonway_Lemonway_Model_Method_Webkit extends Mage_Payment_Model_Method_Ab
                 'registerCard' => (int)$registerCard, //For Atos
                 'useRegisteredCard' => (int)($registerCard || $useCard) //For payline
             );
-            Mage::log(print_r($params, true), null, 'params.log');
-
 
             $this->_debug($params);
             $res = $kit->MoneyInWebInit($params);
@@ -221,7 +219,7 @@ class Lemonway_Lemonway_Model_Method_Webkit extends Mage_Payment_Model_Method_Ab
 
             $cssUrl = $this->getConfigData('css_url');
             $redirectUrl = $this->getHelper()->getConfig()->getWebkitUrl() . "?moneyintoken=" . $moneyInToken . '&p=' . urlencode($cssUrl) . '&lang=' . $this->getLang();
-            Mage::log($redirectUrl, null, "debug_lw.log");
+
             //Redirect to webkit page
             return $redirectUrl;
         }

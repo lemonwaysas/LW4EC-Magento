@@ -59,14 +59,15 @@ class Lemonway_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
     protected function getMoneyInTransDetails()
     {
         if (is_null($this->_moneyin_trans_details)) {
-            //call directkit to get Webkit Token
-            //la date transformer en timestamp
+            // Call directkit to get wkToken
+            // Date to timestamp
             $time=strtotime($this->_getOrder()->getCreatedAt());
             $params = array('transactionMerchantToken' =>$time."_". $this->_getOrder()->getIncrementId());
-            //Init APi kit
+
+            //Init API kit
             /* @var $kit Lemonway_Lemonway_Model_Apikit_Kit */
             $kit = Mage::getSingleton('Lemonway_lemonway/apikit_kit');
-            //Mage::log(print_r($params),null,'trans.log');
+
             $res = $kit->GetMoneyInTransDetails($params);
             if (isset($res->lwError)) {
                 Mage::throwException("Error code: " . $res->lwError->getCode() . " Message: " . $res->lwError->getMessage());
@@ -162,7 +163,6 @@ class Lemonway_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
         }
         $params = $this->getRequest()->getParams();
         $order = $this->_getOrder();
-        Mage::log(print_r($order, true), null, 'data.log');
 
         $successUrl = 'checkout/onepage/success';
 
