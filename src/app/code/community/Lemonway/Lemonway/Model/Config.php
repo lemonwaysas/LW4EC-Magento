@@ -115,6 +115,11 @@ class Lemonway_Lemonway_Model_Config extends Varien_Object
         return $this->getConfigData(self::WALLET_MERCHANT_ID, $storeId);
     }
 
+    public function getCustomEnvironementName($storeId = null)
+    {
+        return $this->getConfigData(self::CUSTOM_WALLET, $storeId);
+    }
+
     /**
      *
      * @param string $storeId
