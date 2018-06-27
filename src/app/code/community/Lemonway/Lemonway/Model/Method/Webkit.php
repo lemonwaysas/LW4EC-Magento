@@ -105,12 +105,10 @@ class Lemonway_Lemonway_Model_Method_Webkit extends Mage_Payment_Model_Method_Ab
                 'returnUrl' => urlencode(Mage::getUrl($this->getConfigData('return_url'))),
                 'cancelUrl' => urlencode(Mage::getUrl($this->getConfigData('cancel_url'))),
                 'errorUrl' => urlencode(Mage::getUrl($this->getConfigData('error_url'))),
-                'autoCommission' => 0,
+                'autoCommission' => (int)!empty($this->getHelper()->getConfig()->getCustomEnvironementName()),
                 'registerCard' => (int)$registerCard, //For Atos
                 'useRegisteredCard' => (int)($registerCard || $useCard) //For payline
             );
-            Mage::log(print_r($params, true), null, 'params.log');
-
 
             $this->_debug($params);
             $res = $kit->MoneyInWebInit($params);
@@ -126,19 +124,21 @@ class Lemonway_Lemonway_Model_Method_Webkit extends Mage_Payment_Model_Method_Ab
 
             //Save CardId if register card asked by user
             if ($registerCard && $hasCardId) {
-
                 $cardId = (string)$res->CARD->ID;
-
                 $customer = Mage::getModel('customer/customer')->load($this->getOrder()->getCustomerId());
                 if ($customer->getId()) {
                     $customer->setLwCardId($cardId);
                     $customer->getResource()->saveAttribute($customer, 'lw_card_id');
+                    Mage::log($customer->getLwCardId(), $customer->getLwCardNum());
                 }
             }
+
+
         } else { //Customer want to use his last card, so we call MoneyInWithCardID directly
             $customer = Mage::getModel('customer/customer')->load($this->getOrder()->getCustomerId());
             if ($customer->getId()) {
                 $cardId = $customer->getLwCardId();
+                Mage::log($cardId, $customer->getLwCardNum());
                 //call directkit for MoneyInWithCardId
                 $params = array(
                     'wkToken' => $time . "_" . $this->getOrder()->getIncrementId(),
@@ -146,7 +146,7 @@ class Lemonway_Lemonway_Model_Method_Webkit extends Mage_Payment_Model_Method_Ab
                     'amountTot' => sprintf("%.2f", (float)$this->getOrder()->getBaseGrandTotal()),
                     'amountCom' => sprintf("%.2f", (float)$amountCom),
                     'message' => $comment . " -- " . Mage::helper('Lemonway_lemonway')->__('Oneclic mode (card id: %s)', $cardId),
-                    'autoCommission' => 0,
+                    'autoCommission' => (int)!empty($this->getHelper()->getConfig()->getCustomEnvironementName()),
                     'cardId' => $cardId,
                     'isPreAuth' => 0,
                     'specialConfig' => '',
@@ -154,6 +154,7 @@ class Lemonway_Lemonway_Model_Method_Webkit extends Mage_Payment_Model_Method_Ab
                 );
 
                 $this->_debug($params);
+                Mage::log(print_r($params,true), null, "test.log");
                 $res = $kit->MoneyInWithCardId($params);
                 $this->_debug($res);
 
